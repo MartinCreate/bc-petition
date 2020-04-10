@@ -1,0 +1,46 @@
+#canvas {
+    background-color: beige;
+}
+
+#sig {
+    border: 1px solid red;
+}
+
+/* -----------------------------tabledata Page -----------------------------*/
+
+#table-body {
+    /* zborder: 1px red solid; */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.td-title {
+    font-weight: bold;
+    background-color: white;
+    padding: 5px;
+}
+
+.data {
+    /* border: 1px red solid; */
+    overflow: scroll;
+    height: 35px;
+    background-color: white;
+    padding: 5px;
+}
+
+#table {
+    /* border: 1px green solid; */
+    background-color: lightgrey;
+    display: grid;
+    grid-template-columns: 50px repeat(2, minmax(150px, 300px)) 150px minmax(
+            150px,
+            1fr
+        );
+    grid-gap: 5px;
+}
+
+#td-id {
+    margin-left: 5px;
+}
