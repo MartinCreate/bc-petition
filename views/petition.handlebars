@@ -1,21 +1,26 @@
-<h1 id='headline'>Petition to end bad things</h1>
-    <p id='petition-text'>Hello. For too long now, bad things have been happening. If they didn't happen, it would be nice. Therefore, with this petition, we at Martincorporated would like to gather your support to end all bad things, and leave only good things.</p>
+<div id="petition-body">
+    <h1 id='headline'>Petition To End All Bad Things!</h1>
+        <p id='petition-text'>Hello. For too long now, bad things have been happening. If they didn't happen, it would be nice. Therefore, with this petition, we would like to gather your support to end all bad things, and because then we will have only good things.</p>
 
-        {{#if tryAgain}}
-        <p id="errorMessage">Woops! A bad thing happened. Please try again.</p>
-        {{/if}}
-    <form method='POST'>
-        <div class="input-div">
-            <label for="firstName">First Name</label><input id='firstName' name='firstName' type="text" required>
-        </div>
-        <div class="input-div">
-            <label for="lastName">Last Name</label><input id='lastName' name='lastName' type="text" required>
-        </div>
-        <div class="input-div">
-            <canvas id="canvas" width="400" height="70"></canvas>
-            <label for="canvas">Sign Here</label><input id ='sig' name='sig' type="hidden" value='' required>
-        </div>
+            {{#if tryAgain}}
+            <p id="errorMessage">Woops! A bad thing happened. Please try again.</p>
+            {{/if}}
+        <form method='POST' id='petition-form'>
+            <div id='name-fields'>
+                <div class="input-div">
+                    <label for="firstName">First Name:   </label><input id='firstName' name='firstName' type="text" required>
+                </div>
 
-        <button id='petitionSubmit'>Submit</button>
-    </form>
-    <button id="redoSig">Rewrite Signature</button>
+                <div class="input-div">
+                    <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" required>
+                </div>
+            </div>
+
+            <div class="input-div" id='canvas-div'>
+                <canvas id="canvas" width="400" height="90"></canvas>
+                <label for="canvas" id='sign-here'>Sign Here</label><input id ='sig' name='sig' type="hidden" value='' required>
+                <button id="redoSig" type="button">Re-write Signature</button>
+            </div>
+            <button id='submit-petition'>Submit</button>
+        </form>
+</div>

@@ -16,14 +16,14 @@ app.use(
 
 app.use(express.static("./public"));
 
-//Redirect to Petition form, if no cookie
-app.use((req, res, next) => {
-    if (req.url != "/petition" && !req.cookies.submittedData) {
-        res.redirect("/petition");
-    } else {
-        next();
-    }
-});
+// //Redirect to Petition form, if no cookie
+// app.use((req, res, next) => {
+//     if (req.url != "/petition" && !req.cookies.submittedData) {
+//         res.redirect("/petition");
+//     } else {
+//         next();
+//     }
+// });
 
 //////-----------------------------------Petition Form----------------------------------------------------------------------//
 app.get("/petition", (req, res) => {
@@ -74,38 +74,37 @@ app.get("/petition/signers", (req, res) => {
     });
 });
 
-//////-----------------------------------Checking Table Data (comment this out before pushing)----------------------------------------------------------------------//
+//////-----------------------------------Checking Table Data (comment this out / delete this before final submission)----------------------------------------------------------------------//
 
-// app.get("/table-data", (req, res) => {
-//     db.tableData()
-//         .then(({ rows }) => {
-//             console.log("rows: ", rows);
-//             let idArr = [];
-//             let firstArr = [];
-//             let lastArr = [];
-//             let signatureArr = [];
-//             let timeStampArr = [];
+app.get("/table-data", (req, res) => {
+    db.tableData()
+        .then(({ rows }) => {
+            let idArr = [];
+            let firstArr = [];
+            let lastArr = [];
+            let signatureArr = [];
+            let timeStampArr = [];
 
-//             for (let i = 0; i < rows.length; i++) {
-//                 idArr.push(rows[i].id);
-//                 firstArr.push(rows[i].first);
-//                 lastArr.push(rows[i].last);
-//                 signatureArr.push(rows[i].signature);
-//                 timeStampArr.push(rows[i].ts);
-//             }
+            for (let i = 0; i < rows.length; i++) {
+                idArr.push(rows[i].id);
+                firstArr.push(rows[i].first);
+                lastArr.push(rows[i].last);
+                signatureArr.push(rows[i].signature);
+                timeStampArr.push(rows[i].ts);
+            }
 
-//             res.render("tabledata", {
-//                 id: idArr,
-//                 first: firstArr,
-//                 last: lastArr,
-//                 signature: signatureArr,
-//                 ts: timeStampArr,
-//             });
-//         })
-//         .catch((err) => {
-//             console.log("ERROR in tableNoSig: ", err);
-//         });
-// });
+            res.render("tabledata", {
+                id: idArr,
+                first: firstArr,
+                last: lastArr,
+                signature: signatureArr,
+                ts: timeStampArr,
+            });
+        })
+        .catch((err) => {
+            console.log("ERROR in tableNoSig: ", err);
+        });
+});
 
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 

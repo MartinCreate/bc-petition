@@ -1,12 +1,158 @@
-#canvas {
-    background-color: beige;
+/* -----------------------------main Handlebars -------------------------------------------*/
+* {
+    font-family: "Courier New", Courier, monospace;
 }
 
-#sig {
-    border: 1px solid red;
+body {
+    background-color: rgb(255, 240, 217);
+    padding: 20px;
+    font-family: "Courier New", Courier, monospace;
 }
 
-/* -----------------------------tabledata Page -----------------------------*/
+#main-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 252, 249);
+    border-radius: 10px;
+    padding: 50px;
+}
+
+p,
+input,
+label {
+    font-size: 20px;
+}
+
+h1,
+h3 {
+    text-align: center;
+}
+
+/* -----------------------------/petition Page -------------------------------------------*/
+
+#petition-text {
+    /* border: 1px red solid; */
+    text-align: center;
+}
+
+#petition-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+}
+
+.input-div {
+    /* border: 1px red solid; */
+    text-align: center;
+    margin: 50px;
+}
+
+input {
+    border: none;
+    border-bottom: 1px black solid;
+    background-color: rgba(245, 245, 245, 0);
+    width: 200px;
+    height: 20px;
+    font-weight: bold;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+    /* background-color: rgb(247, 247, 247); */
+}
+
+#canvas-div {
+    /* border: 1px red solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 402;
+}
+
+canvas {
+    border: 1px rgba(211, 211, 211, 0) solid;
+    border-bottom: 1px solid black;
+    background-color: rgb(245, 238, 220);
+    display: block;
+    text-align: center;
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
+    cursor: crosshair;
+}
+
+canvas:hover {
+    border: 1px solid rgb(154, 154, 154);
+    border-bottom: 1px solid black;
+}
+
+#sign-here {
+    display: block;
+    align-self: flex-start;
+}
+
+#redoSig {
+    border: none;
+    border-bottom: 1px grey solid;
+    display: block;
+    margin-top: 30px;
+    font-size: 13px;
+    align-self: center;
+    font-weight: bold;
+    width: 200px;
+    cursor: pointer;
+}
+
+#redoSig:hover {
+    background-color: rgb(232, 232, 232);
+}
+
+#redoSig:focus {
+    background-color: rgb(208, 208, 208);
+    outline: none;
+    /* border-top-left-radius: 3px;
+    border-top-right-radius: 3px; */
+}
+
+#submit-petition {
+    border: 2px solid grey;
+    border-radius: 15px;
+    color: black;
+    align-self: center;
+    height: 50px;
+    width: 150px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#submit-petition:hover {
+    border: 1px solid black;
+    color: white;
+    background-color: grey;
+    /* border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px; */
+    /* background-color: rgb(208, 197, 186); */
+}
+
+#submit-petition:focus {
+    outline: none;
+    background-color: black;
+    border-radius: 17px;
+
+    /* background-color: rgb(162, 129, 99); */
+    color: white;
+    border: 1px white solid;
+    /* border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px; */
+}
+
+/* -----------------------------tabledata Page -------------------------------------------*/
 
 #table-body {
     /* zborder: 1px red solid; */
@@ -26,8 +172,11 @@
     /* border: 1px red solid; */
     overflow: scroll;
     height: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
     background-color: white;
     padding: 5px;
+    margin-top: 5px;
 }
 
 #table {

@@ -1,11 +1,9 @@
 //////------------------------------------Canvas Signature------------------------------------------------------//
-const context = $("canvas")[0].getContext("2d");
 const canvas = $("canvas");
+const context = canvas[0].getContext("2d");
 context.strokeStyle = "black";
 let mousedown = null;
 let exportSigURL;
-let canvXaxis = canvas.offset().left;
-let canvYaxis = canvas.offset().top;
 
 canvas
     .on("mousedown", () => {
@@ -14,12 +12,9 @@ canvas
     })
     .on("mousemove", (e) => {
         if (mousedown) {
-            let x = e.clientX;
-            let y = e.clientY;
-
-            //x/y coordinates of mouse relative to canvas
-            x = x - canvXaxis;
-            y = y - canvYaxis;
+            const canv = canvas[0].getBoundingClientRect();
+            let x = e.clientX - canv.left;
+            let y = e.clientY - canv.top;
 
             context.lineTo(x, y);
             context.stroke();
@@ -29,7 +24,6 @@ canvas
         if (mousedown) {
             exportSigURL = $("#canvas")[0].toDataURL();
             $("#sig").val(exportSigURL);
-            exportSigURL = null;
         }
     });
 
