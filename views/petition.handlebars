@@ -1,22 +1,20 @@
 {{!-- <div id="petition-body"> --}}
-    <h1 id='headline'>Printer Status: Exploit</h1>
-    <div id='sub-title'>Petition to end malicious printer-industry practices</div>
+    <h1 id='headline'>Attack on Printers</h1>
+    <div id='sub-title'>Petition to end exploitative printer-industry practices</div>
 
     <figure id="office-space">
     <img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene">
     <figcaption>Movie: Office Space (1999)</figcaption>
-    {{!-- <label id='office-space-label' for="office-space">Movie: Office Space</label> --}}
     </figure>
 
-        <p class='petition-text'>Hello. For too long now, printer manufacturers have been getting away with exploitative and wasteful business practices. Particularly, they design printers and ink-cartridges to:</p>
+        <p class='petition-text'>Hello. For too long now, printer manufacturers have been maliciously taking advantage of their customers and creating needless waste by designing printers and ink-cartridges to:</p>
         <ul>
-            <li>Disable printing, despite only ONE ink-cartdridge (of a color you're not even using!) running low</li>
             <li>Falsely report low ink</li>
-            <li>Purposely mix color ink into black/white print-jobs to speed up ink-depletion</li>
-            <li>Deplete ink over time despite not using printer</li>
             <li>Have built-in obsolescence</li>
+            <li>Use color ink in black/white print-jobs</li>
+            <li>Disable printing, despite only having <b>ONE</b> empty ink cartridge (of a color you're <span style="background-color:rgb(227, 227, 227)"><span style="color:magenta;text-decoration:underline"><b>NOT </b></span><span style="color:yellow;text-decoration:underline;background-color:rgb(206, 206, 206)"><b>EVEN </b></span><span style="color:cyan;text-decoration:underline;background-color:rgb(194, 194, 194)"><b>USING</b></span></span>!)</li>
         </ul>
-        <p class='petition-text'>Sign below to help us end this villainy!</p>
+        <p class='petition-text'>Sign below to end this fraudulence!</p>
 
         <form method='POST' id='petition-form'>
             <div id='name-fields'>
@@ -38,14 +36,14 @@
             <div class="input-div" id='canvas-div'>
                 <canvas id="canvas" width="400" height="90"></canvas>
                 <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}} Sign Here</label><input id ='sig' name='sig' type="hidden" value='' >
-                <button id="redoSig" type="button">Re-write Signature</button>
+                <button id="redoSig" type="button">Reset Signature</button>
             </div>
             <button id='submit-petition'>Submit</button>
 
         </form>
         <div class="vid">
             <div class="scam-vid">
-            <p id='scam-vid-title'>Former printer-salesman exposes shady printer industry practices:</p>
+            <p id='scam-vid-title'>Former printer-salesman exposes printer industry:</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
