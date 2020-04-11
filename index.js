@@ -26,6 +26,10 @@ app.use(express.static("./public"));
 // });
 
 //////-----------------------------------Petition Form----------------------------------------------------------------------//
+app.get("/", (req, res) => {
+    res.redirect("/petition");
+});
+
 app.get("/petition", (req, res) => {
     if (req.cookies.submittedData) {
         res.redirect("/petition/thanks");
@@ -35,19 +39,18 @@ app.get("/petition", (req, res) => {
 });
 
 app.post("/petition", (req, res) => {
-    try {
-        db.submitData(req.body.firstName, req.body.lastName, req.body.sig).then(
-            () => {
-                console.log("Data has been submitted.");
-            }
-        );
-        res.cookie("submittedData", true);
-        res.redirect("/petition/thanks");
-    } catch (err) {
-        res.render("petition", {
-            tryAgain: true,
+    db.submitData(req.body.firstName, req.body.lastName, req.body.sig)
+        .then(() => {
+            console.log("Data has been submitted.");
+            // res.cookie("submittedData", true);
+            res.redirect("/petition/thanks");
+        })
+        .catch(() => {
+            console.log("ERROR in POST /petition");
+            res.render("petition", {
+                tryAgain: true,
+            });
         });
-    }
 });
 
 //////-----------------------------------Thanks Page----------------------------------------------------------------------//

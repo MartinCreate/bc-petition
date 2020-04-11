@@ -1,26 +1,53 @@
-<div id="petition-body">
-    <h1 id='headline'>Petition To End All Bad Things!</h1>
-        <p id='petition-text'>Hello. For too long now, bad things have been happening. If they didn't happen, it would be nice. Therefore, with this petition, we would like to gather your support to end all bad things, and because then we will have only good things.</p>
+{{!-- <div id="petition-body"> --}}
+    <h1 id='headline'>Printer Status: Exploit</h1>
+    <div id='sub-title'>Petition to end malicious printer-industry practices</div>
 
-            {{#if tryAgain}}
-            <p id="errorMessage">Woops! A bad thing happened. Please try again.</p>
-            {{/if}}
+    <figure id="office-space">
+    <img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene">
+    <figcaption>Movie: Office Space (1999)</figcaption>
+    {{!-- <label id='office-space-label' for="office-space">Movie: Office Space</label> --}}
+    </figure>
+
+        <p class='petition-text'>Hello. For too long now, printer manufacturers have been getting away with exploitative and wasteful business practices. Particularly, they design printers and ink-cartridges to:</p>
+        <ul>
+            <li>Disable printing, despite only ONE ink-cartdridge (of a color you're not even using!) running low</li>
+            <li>Falsely report low ink</li>
+            <li>Purposely mix color ink into black/white print-jobs to speed up ink-depletion</li>
+            <li>Deplete ink over time despite not using printer</li>
+            <li>Have built-in obsolescence</li>
+        </ul>
+        <p class='petition-text'>Sign below to help us end this villainy!</p>
+
         <form method='POST' id='petition-form'>
             <div id='name-fields'>
                 <div class="input-div">
-                    <label for="firstName">First Name:   </label><input id='firstName' name='firstName' type="text" required>
+                    <label for="firstName">First Name:   </label>
+                    <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">{{#if tryAgain}}*{{/if}}
                 </div>
 
                 <div class="input-div">
-                    <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" required>
+                    <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
                 </div>
             </div>
 
+            {{#if tryAgain}}
+            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+            <p>*<span id="errorMessage2">Mandatory fields</span></p>
+            {{/if}}
+
             <div class="input-div" id='canvas-div'>
                 <canvas id="canvas" width="400" height="90"></canvas>
-                <label for="canvas" id='sign-here'>Sign Here</label><input id ='sig' name='sig' type="hidden" value='' required>
+                <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}} Sign Here</label><input id ='sig' name='sig' type="hidden" value='' >
                 <button id="redoSig" type="button">Re-write Signature</button>
             </div>
             <button id='submit-petition'>Submit</button>
+
         </form>
-</div>
+        <div class="vid">
+            <div class="scam-vid">
+            <p id='scam-vid-title'>Former printer-salesman exposes shady printer industry practices:</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+        </div>
+{{!-- </div> --}}

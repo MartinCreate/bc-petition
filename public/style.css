@@ -1,11 +1,13 @@
 /* -----------------------------main Handlebars -------------------------------------------*/
 * {
-    font-family: "Courier New", Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background-color: rgb(255, 240, 217);
-    padding: 20px;
+    /* background-color: rgb(255, 240, 217); */
+    /* background-color: #9bc4cb; */
+    background-image: url("back.jpeg");
+    padding: 80px;
     font-family: "Courier New", Courier, monospace;
 }
 
@@ -13,8 +15,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(255, 252, 249);
-    border-radius: 10px;
+    /* background-color: rgb(255, 252, 249); */
+    background-color: #f9feff;
+    background-color: rgba(245, 245, 245, 0.97);
+    /* border-radius: 10px; */
     padding: 50px;
 }
 
@@ -24,6 +28,7 @@ label {
     font-size: 20px;
 }
 
+p,
 h1,
 h3 {
     text-align: center;
@@ -31,19 +36,51 @@ h3 {
 
 /* -----------------------------/petition Page -------------------------------------------*/
 
-#petition-text {
+#headline {
+    text-decoration: underline;
+}
+
+#sub-title {
+    font-size: 16px;
+    font-style: italic;
+}
+
+#office-space {
+    margin: 50px;
+}
+
+#office-space-pic {
+    width: 40vw;
+    min-width: 200px;
+    max-width: 500px;
+}
+
+figcaption {
+    font-size: 14px;
+    color: grey;
+}
+
+.petition-text {
     /* border: 1px red solid; */
-    text-align: center;
+}
+
+#errorMessage {
+    font-weight: bold;
+    color: red;
+    margin-bottom: -10px;
+}
+
+#errorMessage2 {
+    font-size: 16px;
 }
 
 #petition-form {
+    border: 2px grey solid;
+    border-radius: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-label {
-    font-weight: bold;
 }
 
 .input-div {
@@ -58,7 +95,6 @@ input {
     background-color: rgba(245, 245, 245, 0);
     width: 200px;
     height: 20px;
-    font-weight: bold;
 }
 
 input:focus {
@@ -77,18 +113,21 @@ input:focus {
 
 canvas {
     border: 1px rgba(211, 211, 211, 0) solid;
-    border-bottom: 1px solid black;
-    background-color: rgb(245, 238, 220);
-    display: block;
+    border-bottom: 2px solid black;
+    /* background-color: rgb(245, 238, 220); */
+    background-color: #f0f4f4;
+    display: inline-block;
     text-align: center;
-    /* border-top-left-radius: 10px;
-    border-top-right-radius: 10px; */
     cursor: crosshair;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 canvas:hover {
     border: 1px solid rgb(154, 154, 154);
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 #sign-here {
@@ -97,14 +136,14 @@ canvas:hover {
 }
 
 #redoSig {
-    border: none;
-    border-bottom: 1px grey solid;
-    display: block;
-    margin-top: 30px;
+    border: 1px grey solid;
+    border-radius: 5px;
+    display: inline-block;
+    /* margin-top: 30px; */
     font-size: 13px;
     align-self: center;
-    font-weight: bold;
-    width: 200px;
+    /* font-weight: bold; */
+    width: 180px;
     cursor: pointer;
 }
 
@@ -150,6 +189,17 @@ canvas:hover {
     border: 1px white solid;
     /* border-top-right-radius: 10px;
     border-bottom-left-radius: 10px; */
+}
+
+.vid {
+    /* border: 1px red solid; */
+    width: 560px;
+    margin-top: 80px;
+}
+#scam-vid-title {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 5px;
 }
 
 /* -----------------------------tabledata Page -------------------------------------------*/
