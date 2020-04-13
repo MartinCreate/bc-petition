@@ -40,7 +40,12 @@ h3 {
 /* -----------------------------/petition Page -------------------------------------------*/
 
 #headline {
-    text-decoration: underline;
+    /* text-decoration: underline; */
+}
+
+.line {
+    border: 1px grey solid;
+    width: 100%;
 }
 
 #sub-title {
@@ -65,10 +70,11 @@ figcaption {
 .petition-text {
     /* border: 1px red solid; */
     max-width: 800px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 #list-printer-offenses {
     margin-top: 0;
+    margin-bottom: 80px;
 }
 
 li {
@@ -89,6 +95,7 @@ li {
 #petition-form {
     border: 2px black solid;
     border-radius: 10px;
+    background-color: rgb(222, 220, 220);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -188,7 +195,6 @@ canvas:hover {
 }
 
 #submit-petition:hover {
-    border: 1px solid black;
     color: white;
     background-color: grey;
     /* border-top-left-radius: 10px;
