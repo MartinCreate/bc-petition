@@ -1,54 +1,57 @@
-{{!-- <div id="petition-body"> --}}
-    <h1 id='headline'>Petition To Criminalise Exploitative Printer-Industry Practices</h1>
-    {{!-- <h1 id='headline'>End The Printer-Industry Scam</h1> --}}
-    {{!-- <div id='sub-title'>Petition to criminalise exploitative printer-industry practices</div> --}}
+<h1 id='headline'>Petition To Criminalise Exploitative Printer-Industry Practices</h1>
 
-    <div class="line"></div>
-    <figure id="office-space">
-    <img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene">
-    <figcaption>Movie: Office Space (1999)</figcaption>
-    </figure>
+<div class="line-divider"></div>
 
-        <p class='petition-text'>Hello. For too long now, printer manufacturers have been maliciously taking advantage of their customers and creating needless waste by designing printers and ink cartridges that:</p>
-        <ul id='list-printer-offenses'>
-            <li>Prematurely report low ink</li>
-            <li>Have built-in obsolescence</li>
-            <li>Use color-ink in black/white print jobs</li>
-            <li>Disable all printing, if even <b>ONE</b> ink cartridge (of a color you're <span style="background-color:rgb(227, 227, 227)"><span style="color:magenta;text-decoration:underline"><b>NOT </b></span><span style="color:yellow;text-decoration:underline;background-color:rgb(206, 206, 206)"><b>EVEN </b></span><span style="color:cyan;text-decoration:underline;background-color:rgb(194, 194, 194)"><b>USING</b></span></span> no less!) is running low on ink</li>
-        </ul>
-        <p class='petition-text'>Sign below to criminalise this chicanery!</p>
+<figure id="office-space">
+<img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene" {{#if tryAgain}}onLoad="window.scrollTo(0,950)"{{/if}}>
+<figcaption>Movie: Office Space (1999)</figcaption>
+</figure>
 
-        <form method='POST' id='petition-form'>
-            <p id="petition-form-header">Petition Form</p>
-            <div id='name-fields'>
-                <div class="input-div">
-                    <label for="firstName">First Name:   </label>
-                    <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
+    <p class='petition-text'>Hello. For too long now, printer manufacturers have been maliciously taking advantage of their customers and creating needless waste by designing printers and ink cartridges that:</p>
+    <ul id='list-printer-offenses'>
+        <li>Prematurely report low ink</li>
+        <li>Have built-in obsolescence</li>
+        <li>Use a bit of color-ink in every black/white print job</li>
+        <li>Disable all printing, if even <b>ONE</b> ink cartridge (of a color you're <span class="list-word not">NOT </span><span class='list-word even'>EVEN </span><span class='list-word using'>USING</span> no less!) is running low on ink</li>
+    </ul>
 
-                <div class="input-div">
-                    <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
+    <div class="line-divider"></div>
+
+    <p class='petition-text'>Sign below to criminalise this chicanery!</p>
+
+    <form method='POST' id='petition-form'>
+        <p id="petition-form-header">Petition Form</p>
+        <div id='name-fields'>
+            <div class="input-div">
+                <label for="firstName">First Name:   </label>
+                <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">{{#if tryAgain}}*{{/if}}
             </div>
 
-            {{#if tryAgain}}
-            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
-            <p>*<span id="errorMessage2">Mandatory fields</span></p>
-            {{/if}}
-
-            <div class="input-div" id='canvas-div'>
-                <canvas id="canvas" width="400" height="90"></canvas>
-                <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}} Sign Here</label><input id ='sig' name='sig' type="hidden" value='' >
-                <button id="redoSig" type="button">Reset Signature</button>
+            <div class="input-div">
+                <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
             </div>
-            <button id='submit-petition'>Submit</button>
-
-        </form>
-        <div class="vid">
-            <div class="scam-vid">
-            <p id='scam-vid-title'>Former printer-salesman exposes printer industry:</p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-
         </div>
-{{!-- </div> --}}
+
+        {{#if tryAgain}}
+        <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+        <p>*<span id="errorMessage2">Mandatory fields</span></p>
+        {{/if}}
+
+        <div class="input-div" id='canvas-div'>
+            <canvas id="canvas" width="400" height="90"></canvas>
+            <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}} Sign Here</label><input id ='sig' name='sig' type="hidden" value='' >
+            <button id="redoSig" type="button">Reset Signature</button>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+        <button id='submit-petition'>Submit</button>
+    </form>
+
+    <div class="vid">
+        <div class="scam-vid">
+        <p id='scam-vid-title'>Former printer-salesman exposes printer industry:</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+    </div>

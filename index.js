@@ -3,10 +3,13 @@ const app = express();
 const hb = require("express-handlebars");
 const db = require("./db");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
-// ////------MIDDLEWARE
+//////-----------------------------------MIDDLEWARE----------------------------------------------------------------------//
+app.use(express.static("./public"));
+
 //lets us read req.body properly//
 app.use(
     express.urlencoded({
@@ -16,20 +19,27 @@ app.use(
 
 app.use(
     cookieSession({
-        secret: `I'm always angry.`,
         maxAge: 1000 * 60 * 60 * 24 * 14, //makes cookie expire after 2 weeks of 'inactivity' (i.e. the time since the last interaction with the server)
+        secret: `I'm always angry.`,
     })
 );
-app.use(express.static("./public"));
 
-// //Redirect to Petition form, if no cookie
-// app.use((req, res, next) => {
-//     if (req.url != "/petition" && !req.session.submittedData) {
-//         res.redirect("/petition");
-//     } else {
-//         next();
-//     }
-// });
+//Protect against CSRF and iframe Sabotage//
+app.use(csurf());
+app.use((req, res, next) => {
+    res.set("X-Frame-Options", "deny");
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
+//Redirect to Petition form, if no cookie
+app.use((req, res, next) => {
+    if (req.url != "/petition" && !req.session.hasSubmittedData) {
+        res.redirect("/petition");
+    } else {
+        next();
+    }
+});
 
 //////-----------------------------------Petition Form----------------------------------------------------------------------//
 app.get("/", (req, res) => {
@@ -37,7 +47,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    if (req.session.submittedData) {
+    if (req.session.hasSubmittedData) {
         res.redirect("/petition/thanks");
     } else {
         res.render("petition");
@@ -46,10 +56,10 @@ app.get("/petition", (req, res) => {
 
 app.post("/petition", (req, res) => {
     db.submitData(req.body.firstName, req.body.lastName, req.body.sig)
-        .then((id) => {
+        .then((response) => {
             console.log("Data has been submitted.");
-            req.session.submittedData = true;
-            req.session.signerID = id.rows[0].id;
+            req.session.hasSubmittedData = true;
+            req.session.signerID = response.rows[0].id;
             res.redirect("/petition/thanks");
         })
         .catch(() => {

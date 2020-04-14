@@ -1,7 +1,12 @@
-/* -----------------------------main Handlebars -------------------------------------------*/
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+/* html {
+    scroll-behavior: smooth;
+} */
+
+/* -----------------------------main Handlebars -------------------------------------------*/
 
 body {
     /* background-color: rgb(255, 240, 217); */
@@ -43,9 +48,9 @@ h3 {
     /* text-decoration: underline; */
 }
 
-.line {
-    border: 1px grey solid;
-    width: 100%;
+.line-divider {
+    border: 1px lightgrey solid;
+    width: 60%;
 }
 
 #sub-title {
@@ -55,6 +60,7 @@ h3 {
 
 #office-space {
     margin: 50px;
+    margin-bottom: 0;
 }
 
 #office-space-pic {
@@ -70,16 +76,37 @@ figcaption {
 .petition-text {
     /* border: 1px red solid; */
     max-width: 800px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 #list-printer-offenses {
-    margin-top: 0;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
 }
 
 li {
     font-size: 20px;
     max-width: 500px;
+    margin-bottom: 10px;
+}
+
+.not {
+    color: magenta;
+    /* background-color: rgb(227, 227, 227); */
+}
+.even {
+    color: yellow;
+    /* background-color: rgb(206, 206, 206); */
+}
+.using {
+    color: cyan;
+    /* background-color: rgb(194, 194, 194); */
+}
+
+.list-word {
+    /* -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: grey; */
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-weight: 600;
 }
 
 #errorMessage {
@@ -220,11 +247,19 @@ canvas:hover {
     margin-top: 80px;
 }
 #scam-vid-title {
-    font-size: 16px;
+    font-size: 20px;
     text-align: left;
     margin-bottom: 5px;
+    font-weight: bold;
 }
 /* -----------------------------/thanks Page -------------------------------------------*/
+
+#thx-sig {
+    border-bottom: 2px grey solid;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
+    background-color: #d9eaed;
+}
 
 #thx-comic {
     width: 400px;
