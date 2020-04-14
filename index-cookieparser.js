@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const hb = require("express-handlebars");
 const db = require("./db");
-const cookieSession = require("cookie-session");
+app.use(require("cookie-parser")());
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
@@ -14,22 +14,16 @@ app.use(
     })
 );
 
-app.use(
-    cookieSession({
-        secret: `I'm always angry.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14, //makes cookie expire after 2 weeks of 'inactivity' (i.e. the time since the last interaction with the server)
-    })
-);
 app.use(express.static("./public"));
 
-// //Redirect to Petition form, if no cookie
-// app.use((req, res, next) => {
-//     if (req.url != "/petition" && !req.session.submittedData) {
-//         res.redirect("/petition");
-//     } else {
-//         next();
-//     }
-// });
+//Redirect to Petition form, if no cookie
+app.use((req, res, next) => {
+    if (req.url != "/petition" && !req.cookies.submittedData) {
+        res.redirect("/petition");
+    } else {
+        next();
+    }
+});
 
 //////-----------------------------------Petition Form----------------------------------------------------------------------//
 app.get("/", (req, res) => {
@@ -37,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    if (req.session.submittedData) {
+    if (req.cookies.submittedData) {
         res.redirect("/petition/thanks");
     } else {
         res.render("petition");
@@ -46,10 +40,9 @@ app.get("/petition", (req, res) => {
 
 app.post("/petition", (req, res) => {
     db.submitData(req.body.firstName, req.body.lastName, req.body.sig)
-        .then((id) => {
+        .then(() => {
             console.log("Data has been submitted.");
-            req.session.submittedData = true;
-            req.session.signerID = id.rows[0].id;
+            res.cookie("submittedData", true);
             res.redirect("/petition/thanks");
         })
         .catch(() => {
@@ -62,19 +55,9 @@ app.post("/petition", (req, res) => {
 
 //////-----------------------------------Thanks Page----------------------------------------------------------------------//
 app.get("/petition/thanks", (req, res) => {
-    let numberOfSigners;
-
-    db.getData(`SELECT COUNT (*) FROM signatures`).then((response) => {
-        const rows = response.rows;
-        numberOfSigners = rows[0].count;
-    });
-
-    db.getData(
-        `SELECT signature FROM signatures WHERE id = ${req.session.signerID}`
-    ).then(({ rows }) => {
+    db.getData(`SELECT COUNT (*) FROM signatures`).then(({ rows }) => {
         res.render("thanks", {
-            sigUrl: rows[0].signature,
-            numbSigners: numberOfSigners,
+            numbSigners: rows[0].count,
         });
     });
 });
@@ -94,7 +77,7 @@ app.get("/petition/signers", (req, res) => {
     });
 });
 
-// //////-----------------------------------Checking Signatures Table Data (comment this out / delete this before final submission)----------------------------------------------------------------------//
+// //////-----------------------------------Checking Table Data (comment this out / delete this before final submission)----------------------------------------------------------------------//
 
 // app.get("/table-data", (req, res) => {
 //     db.tableData()
@@ -129,14 +112,3 @@ app.get("/petition/signers", (req, res) => {
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 
 app.listen(8080, () => console.log("petition server is listening..."));
-
-//////-----------------------------------FYIs----------------------------------------------------------------------//
-// //this
-// db.getData(`SELECT COUNT (*) FROM signatures`).then((response) => {
-//     numberOfSigners = response.rows[0].count;
-// });
-
-// // is the same as this
-// db.getData(`SELECT COUNT (*) FROM signatures`).then(({ whatever }) => {
-//     numberOfSigners = whatever[0].count;
-// });
