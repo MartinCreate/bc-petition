@@ -31,7 +31,8 @@ $("body").on("mouseup", () => {
     mousedown = null;
 });
 
-$("#redoSig").on("click", () => {
+$("#redoSig").on("mousedown", () => {
     context.clearRect(0, 0, canvas[0].width, canvas[0].height);
     exportSigURL = null;
+    $("#sig").val(null);
 });

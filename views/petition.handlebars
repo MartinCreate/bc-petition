@@ -3,7 +3,7 @@
 <div class="line-divider"></div>
 
 <figure id="office-space">
-<img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene" {{#if tryAgain}}onLoad="window.scrollTo(0,950)"{{/if}}>
+<img id="office-space-pic" name="office-space" src="pic.jpg" alt="Office Space printer scene" {{#if tryAgain}}onLoad="window.scrollTo(0,850)"{{/if}}>
 <figcaption>Movie: Office Space (1999)</figcaption>
 </figure>
 
@@ -19,18 +19,8 @@
 
     <p class='petition-text'>Sign below to criminalise this chicanery!</p>
 
-    <form method='POST' id='petition-form'>
-        <p id="petition-form-header">Petition Form</p>
-        <div id='name-fields'>
-            <div class="input-div">
-                <label for="firstName">First Name:   </label>
-                <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">{{#if tryAgain}}*{{/if}}
-            </div>
-
-            <div class="input-div">
-                <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
-            </div>
-        </div>
+    <form method='POST' class='form petition-form'>
+        <p class="form-header">Petition Signature</p>
 
         {{#if tryAgain}}
         <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
@@ -45,7 +35,7 @@
 
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-        <button id='submit-petition'>Submit</button>
+        <button class='submit submit-petition'>Submit</button>
     </form>
 
     <div class="vid">

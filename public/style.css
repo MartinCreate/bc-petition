@@ -1,11 +1,9 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
-
 /* html {
     scroll-behavior: smooth;
 } */
-
 /* -----------------------------main Handlebars -------------------------------------------*/
 
 body {
@@ -26,7 +24,7 @@ body {
     align-items: center;
     /* background-color: rgb(255, 252, 249); */
     /* border-radius: 10px; */
-    padding: 50px;
+    padding: 20px;
     min-width: 560px;
 }
 
@@ -40,6 +38,75 @@ p,
 h1,
 h3 {
     text-align: center;
+}
+
+/* -----------------------------On multiple Pages -------------------------------------------*/
+
+.form-column,
+.info-column {
+    /* border: 4px red solid; */
+    display: flex;
+    flex-direction: column;
+    align-self: space-around;
+    align-items: center;
+}
+
+.form-header {
+    text-decoration: underline;
+    font-style: bold;
+}
+
+.form {
+    border: 2px black solid;
+    border-radius: 10px;
+    background-color: rgb(222, 220, 220);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit {
+    border: 2px solid black;
+    border-radius: 15px;
+    color: black;
+    /* align-self: center; */
+    height: 30px;
+    width: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit:hover {
+    color: white;
+    background-color: grey;
+}
+
+.submit:focus {
+    outline: none;
+    background-color: black;
+    border-radius: 17px;
+    color: white;
+    border: 1px white solid;
+}
+
+/* -----------------------------/register Page -------------------------------------------*/
+
+#register-body {
+    /* border: purple 5px solid; */
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* -----------------------------/login Page -------------------------------------------*/
+
+#login-body {
+    /* border: purple 5px solid; */
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 /* -----------------------------/petition Page -------------------------------------------*/
@@ -119,7 +186,7 @@ li {
     font-size: 16px;
 }
 
-#petition-form {
+/* #petition-form {
     border: 2px black solid;
     border-radius: 10px;
     background-color: rgb(222, 220, 220);
@@ -127,12 +194,7 @@ li {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#petition-form-header {
-    text-decoration: underline;
-    font-style: bold;
-}
+} */
 
 .input-div {
     /* border: 1px red solid; */
@@ -209,7 +271,7 @@ canvas:hover {
     border-top-right-radius: 3px; */
 }
 
-#submit-petition {
+.submit-petition {
     border: 2px solid black;
     border-radius: 15px;
     color: black;
@@ -224,21 +286,14 @@ canvas:hover {
 #submit-petition:hover {
     color: white;
     background-color: grey;
-    /* border-top-left-radius: 10px;
-    border-bottom-right-radius: 10px; */
-    /* background-color: rgb(208, 197, 186); */
 }
 
 #submit-petition:focus {
     outline: none;
     background-color: black;
     border-radius: 17px;
-
-    /* background-color: rgb(162, 129, 99); */
     color: white;
     border: 1px white solid;
-    /* border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px; */
 }
 
 .vid {

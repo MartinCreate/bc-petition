@@ -1,0 +1,31 @@
+
+<div id="login-body">
+    <div class='form registration form-column'>
+        <form method='POST' id='login-form'>
+            <p class="form-header">Login</p>
+            <div id='name-fields'>
+                <div class="input-div">
+                    <label for="email">Email:   </label><input id='email' name='email' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+                </div>
+                <div class="input-div">
+                    <label for="password">Password:   </label><input id='password' name='password' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+                </div>
+            </div>
+
+            {{#if tryAgain}}
+            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+            <p>*<span id="errorMessage2">Mandatory fields</span></p>
+            {{/if}}
+
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <button class='submit submit-login'>Login</button>
+        </form>
+    </div>
+
+    <div class="info-column">
+            <img src="/comic.png" alt="funny-comic" id="thx-comic">
+        <p>Sign our petition to criminalize this chicanery!</p>
+    </div>
+
+</div>
