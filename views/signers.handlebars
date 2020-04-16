@@ -1,10 +1,14 @@
 {{> logout}}
-<h3 id="signersBelow">We, whose names are listed below, have pledged to put an end to <span style="font-style:italic">Big Print's</span> evil deeds:</h3>
+{{#if byCity}}<h1>Petition signers from {{byCity}}</h1>{{/if}}
+<h3 class="signersBelow">We, whose names are listed below, have pledged to put an end to printer scams:</h3>
 
 <div id="signerNamesDiv">
-{{#signerNames}}
-    <p class="signerNames">{{.}}</p>
-{{/signerNames}}
+    {{#allinfo}}
+    <p class='signers-whole'>
+        <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}}, {{this.age}}{{/if}}{{#if this.city}}, <a href='/signers/{{this.city}}' class='city-link'>{{this.city}}</a>{{/if}}
+        
+    </p>
+    {{/allinfo}}
 </div>
 
 <img src="/picSigners.jpg" id='pic-signers'>

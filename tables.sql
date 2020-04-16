@@ -1,6 +1,6 @@
 ------RUN THIS TO RESET TABLES
 
-DROP TABLE IF EXISTS signatures, users;
+DROP TABLE IF EXISTS signatures, user_profiles, users;
 CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       first VARCHAR(255) NOT NULL CHECK (first != '' AND first != ' '),
@@ -15,6 +15,13 @@ CREATE TABLE signatures(
       user_id INTEGER NOT NULL REFERENCES users(id),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+CREATE TABLE user_profiles(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL UNIQUE,
+    age INTEGER NULL,
+    city VARCHAR(100) NULL,
+    url VARCHAR(300) NULL 
+ );
 
 -- run this line in terminal
 -- psql -d petition -f tables.sql

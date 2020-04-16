@@ -91,7 +91,7 @@ app.post("/register", (req, res) => {
             })
             .then(() => {
                 console.log("Cookies leaving /register: ", req.session);
-                res.redirect("/petition");
+                res.redirect("/profile");
             })
             .catch((err) => {
                 console.log("ERROR in POST /register, submitReg", err);
@@ -159,6 +159,27 @@ app.post("/login", (req, res) => {
         });
 });
 
+//////-----------------------------------/profile Page----------------------------------------------------------------------//
+app.get("/profile", (req, res) => {
+    console.log("Cookis into /profile: ", req.session);
+    res.render("profile");
+});
+
+app.post("/profile", (req, res) => {
+    const bod = req.body;
+
+    db.submitProfile(req.session.userID, bod.age, bod.city, bod.user_website)
+        .then(() => {
+            console.log("Profile-Submission Success");
+            console.log("Cookies POST /profile: ", req.session);
+            res.redirect("/petition");
+        })
+        .catch((err) => {
+            console.log("ERROR in POST /profile", err);
+            res.redirect("/petition");
+        });
+});
+
 //////-----------------------------------/petition Page----------------------------------------------------------------------//
 // app.get("/", (req, res) => {
 //     res.redirect("/petition");
@@ -205,11 +226,11 @@ app.post("/petition", (req, res) => {
             }
         })
         .then(() => {
-            console.log("LEAVING POST /petition: ");
-            console.log(
-                "We should have new sig: ",
-                req.session.sigUrl == req.body.sig
-            );
+            // console.log("LEAVING POST /petition ");
+            // console.log(
+            //     "We should have new sig: ",
+            //     req.session.sigUrl == req.body.sig
+            // );
             console.log("Cookies leaving POST /petition: ", req.session);
             res.redirect("/thanks");
         })
@@ -254,20 +275,29 @@ app.get("/thanks", (req, res) => {
 app.get("/signers", (req, res) => {
     console.log("Cookies into /signers: ", req.session);
 
-    db.getData(`SELECT first, last FROM users`)
+    db.getFullSigners()
         .then(({ rows }) => {
-            let namesArr = [];
-            for (let i = 0; i < rows.length; i++) {
-                let fullName = rows[i].first + " " + rows[i].last;
-                namesArr.push(fullName);
-            }
-
+            // console.log("rows in /signers: ", rows);
             res.render("signers", {
-                signerNames: namesArr,
+                allinfo: rows,
             });
         })
         .catch((err) => {
             console.log("ERROR in /signers: ", err);
+        });
+});
+
+app.get("/signers/:name", (req, res) => {
+    db.getSignerCity(req.params.name)
+        .then(({ rows }) => {
+            // console.log("rows in /signers: ", rows);
+            res.render("signers", {
+                allinfo: rows,
+                byCity: req.params.name,
+            });
+        })
+        .catch((err) => {
+            console.log("ERROR in /signers/city: ", err);
         });
 });
 
