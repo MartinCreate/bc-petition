@@ -85,6 +85,7 @@ module.exports.getFullSigners = () => {
     FULL OUTER JOIN user_profiles
     ON users.id = user_profiles.user_id`);
 };
+
 module.exports.getSignerCity = (city) => {
     return db.query(
         `
@@ -100,6 +101,6 @@ module.exports.getSignerCity = (city) => {
 };
 
 //////-----------------------------------Checking Table Data (comment this out before pushing)----------------------------------------------------------------------//
-module.exports.tableData = () => {
-    return db.query(`SELECT * FROM signatures`);
-};
+// module.exports.tableData = () => {
+//     return db.query(`SELECT * FROM signatures`);
+// };
