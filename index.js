@@ -8,8 +8,15 @@ const csurf = require("csurf");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
+//Split console.log with each request
+app.use((req, res, next) => {
+    console.log(
+        "//----------------------------------NEW REQUEST-------------------------------//"
+    );
+    next();
+});
+
 //////-----------------------------------MIDDLEWARE----------------------------------------------------------------------//
-app.use(express.static("./public"));
 
 //lets us read req.body properly//
 app.use(
@@ -41,24 +48,49 @@ app.use((req, res, next) => {
 //         next();
 //     }
 // });
+
+app.use(express.static("./public"));
+
+// // Redirect to register page if not logged in (problem: loggedIn cookie is still set after you close the window)
+// app.use((req, res, next) => {
+//     console.log("req.session.loggedIn: ", req.session.loggedIn);
+
+//     if (
+//         req.url != "/login" &&
+//         req.url != "/register" &&
+//         !req.session.loggedIn
+//     ) {
+//         res.redirect("/register");
+//     } else {
+//         next();
+//     }
+// });
+
 //////-----------------------------------/register & /login Pages----------------------------------------------------------------------//
 
 app.get("/register", (req, res) => {
+    console.log("Cookies into /register: ", req.session);
+
+    // const { csrfSecret } = req.session;
+    // req.session = {};
+    // req.session.csrfSecret = csrfSecret;
     res.render("register");
 });
 
 app.post("/register", (req, res) => {
+    console.log("req.body into POST /register: ", req.body);
     const bod = req.body;
 
     hash(bod.password).then((hashedP) => {
         db.submitRegistration(bod.firstName, bod.lastName, bod.email, hashedP)
             .then(({ rows }) => {
-                console.log("Registration-data has been submitted.");
+                console.log("Register Success");
                 // req.session.hasRegistered = true;
+                // req.session.loggedIn = true;
                 req.session.userID = rows[0].id;
-                console.log("rows[0].id in submitRegistratrion: ", rows[0].id);
-
-                // req.session.loggedInUserId = rows[0].id;
+            })
+            .then(() => {
+                console.log("Cookies leaving /register: ", req.session);
                 res.redirect("/petition");
             })
             .catch((err) => {
@@ -74,35 +106,53 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+    // //for now I'll reset cookies upon 'logout' like this. change this later maybe:
+    console.log("Cookies into /login: ", req.session);
+    // const { csrfSecret } = req.session;
+    // req.session = {};
+    // req.session.csrfSecret = csrfSecret;
+    ////Manually
+    // req.session.userID = null;
+    // req.session.sigUrl = null;
+    // req.session.numberOfSigners = null;
+    // req.session.sigId = null;
+
     res.render("login");
 });
 
 app.post("/login", (req, res) => {
     db.loginAttempt(req.body.email)
         .then(({ rows }) => {
-            compare(req.body.password, rows[0].password).then((matchValue) => {
-                if (matchValue) {
-                    req.session.userID = rows[0].id;
-                    console.log(
-                        "req.session.userID in loginAttempt: ",
-                        req.session.userID
-                    );
+            compare(req.body.password, rows[0].password)
+                .then((matchValue) => {
+                    console.log("matchValue: ", matchValue);
+
+                    if (req.body.password == "") {
+                        throw Error;
+                    }
+
+                    if (matchValue) {
+                        req.session.userID = rows[0].id;
+                        // req.session.loggedIn = true;
+                    } else {
+                        throw Error;
+                    }
+                })
+                .then(() => {
+                    console.log("Cookies leaving POST /login: ", req.session);
                     res.redirect("/petition");
-                } else {
+                })
+                .catch((err) => {
+                    console.log("ERROR in POST /login if..else: ", err);
+                    ////for when the password is wrong for an existing email
                     res.render("login", {
                         tryAgain: true,
                     });
-                }
-            });
-            // .catch((err) => {
-            //     console.log("ERROR in POST login compare: ", err);
-            //     res.render("login", {
-            //         tryAgain: true,
-            //     });
-            // });
+                });
         })
         .catch((err) => {
-            console.log("ERROR in POST login compare: ", err);
+            console.log("ERROR in POST /login compare: ", err);
+            ////for when neither e-mail nor password exist
             res.render("login", {
                 tryAgain: true,
             });
@@ -115,14 +165,20 @@ app.post("/login", (req, res) => {
 // });
 
 app.get("/petition", (req, res) => {
-    console.log("req.session.userID in /petition: ", req.session.userID);
+    console.log("Cookies into /petition: ", req.session);
+
+    // console.log("req.session.userID in /petition: ", req.session.userID);
     db.sigCheck(req.session.userID)
         .then(({ rows }) => {
             if (rows[0].exists) {
-                db.getSigId(req.session.userID).then(({ rows }) => {
-                    req.session.sigId = rows[0].id;
-                    res.redirect("petition/thanks");
-                });
+                db.getSigId(req.session.userID)
+                    .then(({ rows }) => {
+                        req.session.sigId = rows[0].id;
+                    })
+                    .then(() => {
+                        console.log("Cookies leaving /petition: ", req.session);
+                        res.redirect("/thanks");
+                    });
             } else {
                 console.log("User did not sign. Rendering 'petition'");
                 res.render("petition");
@@ -134,21 +190,28 @@ app.get("/petition", (req, res) => {
 });
 
 app.post("/petition", (req, res) => {
-    console.log("sigLength in POST /petition: ", req.body.sig.length);
-    console.log("req.session.userID in /petition POST: ", req.session.userID);
+    console.log("Cookies into POST /petition: ", req.session);
+
     db.submitSig(req.body.sig, req.session.userID)
         .then(() => {
-            // req.session.hasSigned = true;
             if (req.body.sig.length == 0) {
-                res.render("petition", {
-                    tryAgain: true,
-                });
+                throw Error;
+                // res.render("petition", {
+                //     tryAgain: true,
+                // });
             } else {
                 req.session.sigUrl = req.body.sig;
-                res.redirect("/petition/thanks");
-
-                console.log("Signature has been submitted.");
+                // console.log("Signature has been submitted.");
             }
+        })
+        .then(() => {
+            console.log("LEAVING POST /petition: ");
+            console.log(
+                "We should have new sig: ",
+                req.session.sigUrl == req.body.sig
+            );
+            console.log("Cookies leaving POST /petition: ", req.session);
+            res.redirect("/thanks");
         })
         .catch((err) => {
             console.log("ERROR in POST /petition: ", err);
@@ -159,33 +222,38 @@ app.post("/petition", (req, res) => {
 });
 
 //////-----------------------------------/thanks Page----------------------------------------------------------------------//
-app.get("/petition/thanks", (req, res) => {
+app.get("/thanks", (req, res) => {
+    console.log("Cookies into /thanks: ", req.session);
+
     db.getData(`SELECT COUNT (*) FROM signatures`)
         .then(({ rows }) => {
             req.session.numberOfSigners = rows[0].count;
         })
-        .catch((err) => {
-            console.log("ERROR in /thanks SELECT COUNT...: ", err);
-        });
+        .then(() => {
+            db.getData(
+                `SELECT signature FROM signatures WHERE user_id = ${req.session.userID}`
+            )
+                .then(({ rows }) => {
+                    console.log("Cookies inside /thanks: ", req.session);
 
-    console.log("req.session.userID in GET /thanks: ", req.session.userID);
-
-    db.getData(
-        `SELECT signature FROM signatures WHERE user_id = ${req.session.userID}`
-    )
-        .then(({ rows }) => {
-            res.render("thanks", {
-                sigUrl: rows[0].signature,
-                numbSigners: req.session.numberOfSigners,
-            });
+                    res.render("thanks", {
+                        sigUrl: rows[0].signature,
+                        numbSigners: req.session.numberOfSigners,
+                    });
+                })
+                .catch((err) => {
+                    console.log("ERROR in /thanks SELECT signature...: ", err);
+                });
         })
         .catch((err) => {
-            console.log("ERROR in /thanks SELECT signature...: ", err);
+            console.log("ERROR in /thanks SELECT COUNT...: ", err);
         });
 });
 
 //////-----------------------------------Signers Page----------------------------------------------------------------------//
-app.get("/petition/signers", (req, res) => {
+app.get("/signers", (req, res) => {
+    console.log("Cookies into /signers: ", req.session);
+
     db.getData(`SELECT first, last FROM users`)
         .then(({ rows }) => {
             let namesArr = [];

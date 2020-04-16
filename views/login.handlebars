@@ -1,14 +1,13 @@
-
 <div id="login-body">
     <div class='form registration form-column'>
-        <form method='POST' id='login-form'>
+        <form method='POST' id='login-form' class='inside-form'>
             <p class="form-header">Login</p>
             <div id='name-fields'>
                 <div class="input-div">
-                    <label for="email">Email:   </label><input id='email' name='email' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+                    <label for="email">Email:   </label><input id='email' name='email' type="text" minlength="2" >{{#if tryAgain}}*{{/if}}
                 </div>
                 <div class="input-div">
-                    <label for="password">Password:   </label><input id='password' name='password' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+                    <label for="password">Password:   </label><input id='password' name='password' type="text" minlength="2" >{{#if tryAgain}}*{{/if}}
                 </div>
             </div>
 
@@ -21,10 +20,13 @@
 
             <button class='submit submit-login'>Login</button>
         </form>
+
+        <div class='register-div goTo-loginRegister'>Go to <a href="/register" id='register-link'>Register</a></div>
+
     </div>
 
     <div class="info-column">
-            <img src="/comic.png" alt="funny-comic" id="thx-comic">
+            <img src="/comic.png" alt="funny-comic" class="intro-comic">
         <p>Sign our petition to criminalize this chicanery!</p>
     </div>
 

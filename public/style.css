@@ -42,6 +42,11 @@ h3 {
 
 /* -----------------------------On multiple Pages -------------------------------------------*/
 
+#logout-div {
+    /* border: 1px solid red; */
+    align-self: flex-end;
+}
+
 .form-column,
 .info-column {
     /* border: 4px red solid; */
@@ -49,6 +54,14 @@ h3 {
     flex-direction: column;
     align-self: space-around;
     align-items: center;
+}
+
+.intro-comic {
+    width: 400px;
+}
+
+.info-column p {
+    max-width: 400px;
 }
 
 .form-header {
@@ -91,6 +104,14 @@ h3 {
     border: 1px white solid;
 }
 
+.goTo-loginRegister {
+    /* border: 1px red solid; */
+    width: 150px;
+    margin-top: 30px;
+    text-align: center;
+    /* align-self: flex-end; */
+}
+
 /* -----------------------------/register Page -------------------------------------------*/
 
 #register-body {
@@ -98,6 +119,12 @@ h3 {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.inside-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* -----------------------------/login Page -------------------------------------------*/
@@ -314,10 +341,6 @@ canvas:hover {
     /* border-top-left-radius: 5px;
     border-top-right-radius: 5px; */
     background-color: #d9eaed;
-}
-
-#thx-comic {
-    width: 400px;
 }
 
 /* -----------------------------/signers Page -------------------------------------------*/
