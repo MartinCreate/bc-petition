@@ -261,6 +261,7 @@ app.get("/signers", (req, res) => {
         .then(({ rows }) => {
             res.render("signers", {
                 allinfo: rows,
+                allCities: true,
             });
         })
         .catch((err) => {

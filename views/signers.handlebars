@@ -3,12 +3,23 @@
 <h3 class="signersBelow">We, whose names are listed below, have pledged to put an end to printer scams:</h3>
 
 <div id="signerNamesDiv">
-    {{#allinfo}}
-    <p class='signers-whole'>
-        <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}}, {{this.age}}{{/if}}{{#if this.city}}, <a href='/signers/{{this.city}}' class='city-link'>{{this.city}}</a>{{/if}}
-        
-    </p>
-    {{/allinfo}}
+    {{#if allCities}}
+        {{#allinfo}}
+        <p class='signers-whole'>
+            <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}},
+            {{this.age}}{{/if}}{{#if this.city}},
+            <a href='/signers/{{this.city}}' class='city-link'>{{this.city}}</a>{{/if}}
+            
+        </p>
+        {{/allinfo}}
+    {{else}}
+        {{#allinfo}}
+        <p class='signers-whole'>
+            <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}},
+            {{this.age}}{{/if}}
+        </p>
+        {{/allinfo}}
+    {{/if}}
 </div>
 
 <img src="/picSigners.jpg" id='pic-signers'>
