@@ -49,7 +49,7 @@ module.exports.submitProfile = (user_id, age, city, user_website) => {
 };
 
 ////// --------------------------------/profile/edit page------------------------------------------------
-
+//GET
 module.exports.getProfileEditInfo = (user_id) => {
     return db.query(
         `
@@ -62,7 +62,48 @@ module.exports.getProfileEditInfo = (user_id) => {
     );
 };
 
+//POST
+module.exports.updateUsers = (user_id, first, last, password) => {
+    if (password) {
+        return db.query(
+            `
+    UPDATE users SET first = $2, last = $3, password = $4
+    WHERE id = $1`,
+            [user_id, first, last, password]
+        );
+    } else {
+        return db.query(
+            `
+    UPDATE users SET first = $2, last = $3
+    WHERE id = $1`,
+            [user_id, first, last]
+        );
+    }
+};
+
+module.exports.updateUser_profiles = (user_id, age, city, url) => {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return db.query(
+            `
+            INSERT INTO user_profiles (user_id, age, city, url)
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3, url = $4`,
+            [user_id, age, city, url]
+        );
+    } else {
+        // throw Error;
+        return db.query(
+            `
+                INSERT INTO user_profiles (user_id, age, city)
+                VALUES ($1, $2, $3)
+                ON CONFLICT (user_id) DO UPDATE user_id SET age = $2, city = $3`,
+            [user_id, age, city]
+        );
+    }
+};
+
 ////// --------------------------------/petition page------------------------------------------------
+//GET
 module.exports.sigCheck = (userID) => {
     return db.query(
         `
@@ -79,6 +120,7 @@ module.exports.getSigId = (userID) => {
     );
 };
 
+//POST
 module.exports.submitSig = (signature, user_id) => {
     return db.query(
         `

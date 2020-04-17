@@ -47,6 +47,8 @@ h3 {
     align-self: flex-end;
 }
 
+/* ---------------------Form ----------------------------------*/
+
 .form-column,
 .info-column {
     /* border: 4px red solid; */
@@ -77,6 +79,12 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.input-div {
+    /* border: 1px red solid; */
+    text-align: center;
+    margin: 50px;
 }
 
 .submit {
@@ -222,12 +230,6 @@ li {
     flex-direction: column;
     align-items: center;
 } */
-
-.input-div {
-    /* border: 1px red solid; */
-    text-align: center;
-    margin: 50px;
-}
 
 input {
     border: none;

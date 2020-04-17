@@ -23,7 +23,7 @@ CREATE TABLE user_profiles(
     url VARCHAR(300) NULL 
  );
 
--- run this line in terminal
+-- run this line in terminal to reset the tables
 -- psql -d petition -f tables.sql
 
 

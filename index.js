@@ -199,19 +199,47 @@ app.get("/profile/edit", (req, res) => {
         });
 });
 
-// app.post("/profile/edit", (req, res) => {
+app.post("/profile/edit", (req, res) => {
+    const bod = req.body;
 
-//     let edit = req.session.editProfile;
-//     res.render("profile_edit", {
-//         uFirst: edit.first,
-//         uLast: edit.last,
-//         uEmail: edit.email,
-//         uAge: edit.age,
-//         uCity: edit.city,
-//         uUrl: edit.url,
-//         tryAgain: true,
-//     });
-// });
+    hash(bod.password)
+        .then((hashedP) => {
+            db.updateUsers(
+                req.session.userID,
+                bod.firstName,
+                bod.lastName,
+                bod.email,
+                hashedP
+            )
+                .then(() => {
+                    db.updateUser_profiles(
+                        req.session.UserID,
+                        bod.age,
+                        bod.city,
+                        bod.user_website
+                    );
+                })
+                .then(() => {
+                    res.redirect("/profile/edit");
+                })
+                .catch((err) => {
+                    console.log("ERROR in updateUsers /profile/edit: ", err);
+                    let edit = req.session.editProfile;
+                    res.render("profile_edit", {
+                        uFirst: edit.first,
+                        uLast: edit.last,
+                        uEmail: edit.email,
+                        uAge: edit.age,
+                        uCity: edit.city,
+                        uUrl: edit.url,
+                        tryAgain: true,
+                    });
+                });
+        })
+        .catch((err) => {
+            console.log("ERROR in hash /profile/edit: ", err);
+        });
+});
 
 //////-----------------------------------/petition Page----------------------------------------------------------------------//
 app.get("/petition", (req, res) => {
