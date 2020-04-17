@@ -200,7 +200,7 @@ app.get("/profile/edit", (req, res) => {
 });
 
 app.post("/profile/edit", (req, res) => {
-    const bod = req.body;
+    let bod = req.body;
 
     hash(bod.password)
         .then((hashedP) => {
@@ -212,7 +212,48 @@ app.post("/profile/edit", (req, res) => {
                 hashedP
             )
                 .then(() => {
-                    db.updateUser_profiles(
+                    // ////----------------REPLACE CODE BELOW WITH UPSERT-----------------//
+                    // db.userProfRowCheck(req.session.userID)
+                    //     .then(({ rows }) => {
+                    //         let bod = req.body;
+
+                    //         console.log("bod: ", bod);
+                    //         if (rows[0].exists) {
+                    //             console.log("bod.age: ", bod.age);
+                    //             db.updateUserProfs(
+                    //                 req.session.UserID,
+                    //                 bod.age,
+                    //                 bod.city,
+                    //                 bod.user_website
+                    //             ).catch((err) => {
+                    //                 console.log(
+                    //                     "ERROR in updateUserProfs /profile/edit: ",
+                    //                     err
+                    //                 );
+                    //             });
+                    //         } else {
+                    //             db.insertUserProfs(
+                    //                 req.session.UserID,
+                    //                 bod.age,
+                    //                 bod.city,
+                    //                 bod.user_website
+                    //             ).catch((err) => {
+                    //                 console.log(
+                    //                     "ERROR in insertUserProfs /profile/edit: ",
+                    //                     err
+                    //                 );
+                    //             });
+                    //         }
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log(
+                    //             "ERROR in userProfRowCheck /profile/edit: ",
+                    //             err
+                    //         );
+                    //     });
+                    // ////----------------REPLACE CODE ABOVE WITH UPSERT-----------------//
+                    //UPSERT NOT WORKING
+                    return db.updateUserProfiles(
                         req.session.UserID,
                         bod.age,
                         bod.city,
@@ -223,7 +264,10 @@ app.post("/profile/edit", (req, res) => {
                     res.redirect("/profile/edit");
                 })
                 .catch((err) => {
-                    console.log("ERROR in updateUsers /profile/edit: ", err);
+                    console.log(
+                        "ERROR in updateUser(s/Profiles) /profile/edit: ",
+                        err
+                    );
                     let edit = req.session.editProfile;
                     res.render("profile_edit", {
                         uFirst: edit.first,

@@ -81,7 +81,8 @@ module.exports.updateUsers = (user_id, first, last, password) => {
     }
 };
 
-module.exports.updateUser_profiles = (user_id, age, city, url) => {
+// ////-------UPSERT NOT WORKING
+module.exports.updateUserProfiles = (user_id, age, city, url) => {
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return db.query(
             `
@@ -94,13 +95,62 @@ module.exports.updateUser_profiles = (user_id, age, city, url) => {
         // throw Error;
         return db.query(
             `
-                INSERT INTO user_profiles (user_id, age, city)
-                VALUES ($1, $2, $3)
-                ON CONFLICT (user_id) DO UPDATE user_id SET age = $2, city = $3`,
+            INSERT INTO user_profiles (user_id, age, city)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (user_id) DO UPDATE user_id SET age = $2, city = $3`,
             [user_id, age, city]
         );
     }
 };
+
+// ////-------UPSERT NOT WORKING. DO THIS INSTEAD UNTIL I GET IT FIXED
+// ////----------------REPLACE CODE BELOW WITH UPSERT-----------------//
+
+// module.exports.userProfRowCheck = (userID) => {
+//     return db.query(
+//         `
+//     SELECT EXISTS(SELECT user_id FROM user_profiles WHERE user_id = $1)`,
+//         [userID]
+//     );
+// };
+
+// module.exports.updateUserProfs = (user_id, age, city, url) => {
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return db.query(
+//             `
+//     UPDATE user_profiles SET age = $2, city = $3, url = $4
+//     WHERE user_id = $1`,
+//             [user_id, age, city, url]
+//         );
+//     } else {
+//         return db.query(
+//             `
+//     UPDATE user_profiles SET age = $2, city = $3
+//     WHERE user_id = $1`,
+//             [user_id, age, city]
+//         );
+//     }
+// };
+
+// module.exports.insertUserProfs = (user_id, age, city, url) => {
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return db.query(
+//             `
+//     INSERT INTO user_profiles (user_id, age, city, url)
+//     VALUES ($1, $2, $3, $4)`,
+//             [user_id, age, city, url]
+//         );
+//     } else {
+//         // throw Error;
+//         return db.query(
+//             `
+//     INSERT INTO user_profiles (user_id, age, city)
+//     VALUES ($1, $2, $3)`,
+//             [user_id, age, city]
+//         );
+//     }
+// };
+// ////----------------REPLACE CODE ABOVE WITH UPSERT-----------------//
 
 ////// --------------------------------/petition page------------------------------------------------
 //GET
