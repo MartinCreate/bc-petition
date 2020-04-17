@@ -6,3 +6,13 @@
 <a href="/signers" id='linkToSigners'>
     <p id="thxNumbSigners">See all {{numbSigners}} signers</p>
 </a>
+
+
+<a href="/profile/edit" class='link'>
+    <p>Edit your profile</p>
+</a>
+
+<form action="/sig-delete" method='POST' id='delete-sig'>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button id='delete-sig-button'>Delete Signature</button>
+</form>

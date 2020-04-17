@@ -112,7 +112,7 @@ h3 {
     border: 1px white solid;
 }
 
-.goTo-loginRegister {
+.goTo-link {
     /* border: 1px red solid; */
     width: 150px;
     margin-top: 30px;
@@ -336,6 +336,12 @@ canvas:hover {
     margin-bottom: 5px;
     font-weight: bold;
 }
+/* -----------------------------/profile/edit Page -------------------------------------------*/
+#updateMessage {
+    font-weight: bold;
+    color: green;
+}
+
 /* -----------------------------/thanks Page -------------------------------------------*/
 
 #thx-sig {
