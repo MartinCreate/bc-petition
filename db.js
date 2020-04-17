@@ -94,10 +94,7 @@ module.exports.updateUserProfiles = (user_id, age, city, url) => {
     } else {
         // throw Error;
         return db.query(
-            `
-            INSERT INTO user_profiles (user_id, age, city)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (user_id) DO UPDATE user_id SET age = $2, city = $3`,
+            `INSERT INTO user_profiles (user_id, age,city) VALUES ($1, $2, $3) ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3`,
             [user_id, age, city]
         );
     }
