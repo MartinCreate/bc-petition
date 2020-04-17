@@ -1,5 +1,8 @@
 const spicedPg = require("spiced-pg");
-const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+const db = spicedPg(
+    process.env.DATABASE_URL ||
+        "postgres:postgres:postgres@localhost:5432/petition"
+);
 
 ////// --------------------------------/registration & /login page------------------------------------------------
 
@@ -43,6 +46,20 @@ module.exports.submitProfile = (user_id, age, city, user_website) => {
             [user_id, age, city]
         );
     }
+};
+
+////// --------------------------------/profile/edit page------------------------------------------------
+
+module.exports.getProfileEditInfo = (user_id) => {
+    return db.query(
+        `
+    SELECT users.id AS user_id, first, last, email, age, city, url
+    FROM users
+    FULL OUTER JOIN user_profiles
+    ON users.id = user_id
+    WHERE user_id = $1`,
+        [user_id]
+    );
 };
 
 ////// --------------------------------/petition page------------------------------------------------

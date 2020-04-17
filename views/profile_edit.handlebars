@@ -1,0 +1,38 @@
+<div class='form profile-edit-div form-column'>
+    <form method='POST' id='profile-edit-form' class='inside-form'>
+        <p class="form-header">Edit Your Profile</p>
+
+        <div class='input-fields'>
+            <div class="input-div">
+                <label for="firstName">First Name:   </label>
+                <input id='firstName' name='firstName' type="text"  value="{{uFirst}}" minlength="2">{{#if tryAgain}}*{{/if}}
+            </div>
+            <div class="input-div">
+                <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' value="{{uLast}}" type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+            </div>
+            <div class="input-div">
+                <label for="email">Email:   </label><input id='email' name='email' value="{{uEmail}}" type="text" minlength="2">{{#if tryAgain}}*{{/if}}
+            </div>
+            <div class="input-div">
+                <label for="password">Password:   </label><input id='password' name='password' type="text">
+            </div>
+            <div class="input-div">
+                <label for="age">Age:   </label><input id='age' name='age' value="{{uAge}}" type="text" >
+            <div class="input-div">
+                <label for="city">City:   </label><input id='city' name='city' value="{{uCity}}" type="text" >
+            </div>
+            <div class="input-div">
+                <label for="user_website">Homepage (URL):   </label><input id='user_website' name='user_website' value="{{uUrl}}" type="text" >
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+        <button class='submit submit-profile-edit'>Update</button>
+    </form>
+
+      {{#if tryAgain}}
+            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+            <p>*<span id="errorMessage2">Mandatory fields</span></p>
+        {{/if}}
+</div>

@@ -55,6 +55,13 @@ app.use((req, res, next) => {
     }
 });
 
+// Redirect to petition page if logged in
+app.get("/", (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect("/petition");
+    }
+});
+
 //////-----------------------------------/register Page----------------------------------------------------------------------//
 
 app.get("/register", (req, res) => {
@@ -91,18 +98,14 @@ app.post("/register", (req, res) => {
     });
 });
 
-//////-----------------------------------/cookieReset (logout)----------------------------------------------------------------------//
+//////-----------------------------------/logout----------------------------------------------------------------------//
 
-app.get("/cookieReset", (req, res) => {
-    const { csrfSecret } = req.session;
-    req.session = {};
-    req.session.csrfSecret = csrfSecret;
-
+app.get("/logout", (req, res) => {
+    req.session = null;
     res.redirect("/login");
 });
 
 //////-----------------------------------/login Page----------------------------------------------------------------------//
-
 app.get("/login", (req, res) => {
     console.log("Cookies into /login: ", req.session);
 
@@ -169,11 +172,48 @@ app.post("/profile", (req, res) => {
         });
 });
 
-//////-----------------------------------/petition Page----------------------------------------------------------------------//
-// app.get("/", (req, res) => {
-//     res.redirect("/petition");
+//////-----------------------------------/profile/edit Page----------------------------------------------------------------------//
+app.get("/profile/edit", (req, res) => {
+    db.getProfileEditInfo(req.session.userID)
+        .then(({ rows }) => {
+            req.session.editProfile = {};
+            let edit = req.session.editProfile;
+            edit.first = rows[0].first;
+            edit.last = rows[0].last;
+            edit.email = rows[0].email;
+            edit.age = rows[0].age;
+            edit.city = rows[0].city;
+            edit.url = rows[0].url;
+            console.log("cookies: ", req.session);
+            res.render("profile_edit", {
+                uFirst: rows[0].first,
+                uLast: rows[0].last,
+                uEmail: rows[0].email,
+                uAge: rows[0].age,
+                uCity: rows[0].city,
+                uUrl: rows[0].url,
+            });
+        })
+        .catch((err) => {
+            console.log("ERROR in getProfileEditInfo /profile/edit: ", err);
+        });
+});
+
+// app.post("/profile/edit", (req, res) => {
+
+//     let edit = req.session.editProfile;
+//     res.render("profile_edit", {
+//         uFirst: edit.first,
+//         uLast: edit.last,
+//         uEmail: edit.email,
+//         uAge: edit.age,
+//         uCity: edit.city,
+//         uUrl: edit.url,
+//         tryAgain: true,
+//     });
 // });
 
+//////-----------------------------------/petition Page----------------------------------------------------------------------//
 app.get("/petition", (req, res) => {
     console.log("Cookies into /petition: ", req.session);
 
@@ -316,7 +356,10 @@ app.get("/signers/:name", (req, res) => {
 
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 
-app.listen(8080, () => console.log("petition server is listening..."));
+app.listen(process.env.PORT || 8080, () =>
+    console.log("petition server is listening...")
+);
+// app.listen(8080, () => console.log("petition server is listening..."));
 
 //////-----------------------------------FYIs----------------------------------------------------------------------//
 // //this
@@ -325,6 +368,6 @@ app.listen(8080, () => console.log("petition server is listening..."));
 // });
 
 // // is the same as this
-// db.getData(`SELECT COUNT (*) FROM signatures`).then(({ whatever }) => {
-//     numberOfSigners = whatever[0].count;
+// db.getData(`SELECT COUNT (*) FROM signatures`).then(({ rows }) => {
+//     numberOfSigners = rows[0].count;
 // });
