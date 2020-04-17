@@ -12,7 +12,7 @@
     <ul id='list-printer-offenses'>
         <li>Prematurely report low ink</li>
         <li>Have built-in obsolescence</li>
-        <li>Use a bit of color-ink in every black/white print job</li>
+        <li>Use some color-ink in every black/white print job</li>
         <li>Disable all printing, if even <b>ONE</b> ink cartridge (of a color you're <span class="list-word not">NOT </span><span class='list-word even'>EVEN </span><span class='list-word using'>USING</span> no less!) is running low on ink</li>
     </ul>
 
@@ -24,13 +24,13 @@
         <p class="form-header">Petition Signature</p>
 
         {{#if tryAgain}}
-        <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
-        <p>*<span id="errorMessage2">Mandatory fields</span></p>
+        <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+        <p>*<span class="errorMessage2">Mandatory fields</span></p>
         {{/if}}
 
-        <div class="input-div" id='canvas-div'>
+        <div id='canvas-div'>
             <canvas id="canvas" width="400" height="90"></canvas>
-            <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}} Sign Here</label><input id ='sig' name='sig' type="hidden" value='' >
+            <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}}</label><input id ='sig' name='sig' type="hidden" value='' >
             <button id="redoSig" type="button">Reset Signature</button>
         </div>
 

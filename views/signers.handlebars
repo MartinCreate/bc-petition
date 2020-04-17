@@ -6,7 +6,7 @@
     {{#if allCities}}
         {{#allinfo}}
         <p class='signers-whole'>
-            <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}},
+          {{#if this.url}}<a href='{{this.url}}' class='name-link'>{{/if}}{{this.first}} {{this.last}}{{#if this.url}}</a>{{/if}}{{#if this.age}},
             {{this.age}}{{/if}}{{#if this.city}},
             <a href='/signers/{{this.city}}' class='city-link'>{{this.city}}</a>{{/if}}
             
@@ -15,7 +15,7 @@
     {{else}}
         {{#allinfo}}
         <p class='signers-whole'>
-            <a href='{{this.url}}' class='name-link'>{{this.first}} {{this.last}}</a>{{#if this.age}},
+            {{#if this.url}}<a href='{{this.url}}' class='name-link'>{{/if}}{{this.first}} {{this.last}}{{#if this.url}}</a>{{/if}}{{#if this.age}},
             {{this.age}}{{/if}}
         </p>
         {{/allinfo}}

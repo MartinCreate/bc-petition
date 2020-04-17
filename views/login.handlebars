@@ -1,19 +1,19 @@
-<div id="login-body">
+<div class="register-login-body">
     <div class='form registration form-column'>
         <form method='POST' id='login-form' class='inside-form'>
             <p class="form-header">Login</p>
-            <div class='input-fields'>
-                <div class="input-div">
-                    <label for="email">Email:   </label><input id='email' name='email' type="text" minlength="2" >{{#if tryAgain}}*{{/if}}
-                </div>
-                <div class="input-div">
-                    <label for="password">Password:   </label><input id='password' name='password' type="text" minlength="2" >{{#if tryAgain}}*{{/if}}
-                </div>
+
+            <div class='input-fields-div'>
+                <label for="email">Email: {{#if tryAgain}}*{{/if}}  </label>
+                <input id='email' name='email' type="text" minlength="2">
+
+                <label for="password">Password: {{#if tryAgain}}*{{/if}}  </label>
+                <input id='password' name='password' type="text" minlength="2">
             </div>
 
             {{#if tryAgain}}
-            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
-            <p>*<span id="errorMessage2">Mandatory fields</span></p>
+            <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+            <p>*<span class="errorMessage2">Mandatory fields</span></p>
             {{/if}}
 
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
@@ -21,7 +21,7 @@
             <button class='submit submit-login'>Login</button>
         </form>
 
-        <div class='register-div goTo-link'>Go to <a href="/register" id='register-link'>Register</a></div>
+        <div class='goTo-link'>Go to <a href="/register" id='register-link'>Register</a></div>
 
     </div>
 

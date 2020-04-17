@@ -40,14 +40,14 @@ h3 {
     text-align: center;
 }
 
-/* -----------------------------On multiple Pages -------------------------------------------*/
+/* ----------------------------- On multiple Pages -------------------------------------------*/
 
 #logout-div {
     /* border: 1px solid red; */
     align-self: flex-end;
 }
 
-/* ---------------------Form ----------------------------------*/
+/* ------------------------------ Forms ----------------------------------------------------*/
 
 .form-column,
 .info-column {
@@ -58,6 +58,68 @@ h3 {
     align-items: center;
 }
 
+.form {
+    border: 2px black solid;
+    border-radius: 10px;
+    background-color: rgb(222, 220, 220);
+    padding: 20px 50px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-fields-div {
+    /* border: 1px red solid; */
+    width: auto;
+    padding-right: 50px;
+}
+
+.inside-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-header {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+label {
+    /* border: 1px blue solid; */
+    box-sizing: border-box;
+    /* display: inline-block; */
+    float: left;
+    clear: left;
+    width: 50%;
+    padding-right: 20px;
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input {
+    border: none;
+    /* border: 1px purple solid; */
+    border-bottom: 1px black solid;
+    background-color: rgba(245, 245, 245, 0);
+    box-sizing: border-box;
+    width: 50%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-right: 20px;
+    /* height: 20px; */
+    /* display: inline-block; */
+    float: left;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+    /* background-color: rgb(247, 247, 247); */
+}
+
 .intro-comic {
     width: 400px;
 }
@@ -66,34 +128,22 @@ h3 {
     max-width: 400px;
 }
 
-.form-header {
-    text-decoration: underline;
-    font-style: bold;
-}
-
-.form {
-    border: 2px black solid;
-    border-radius: 10px;
-    background-color: rgb(222, 220, 220);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.input-div {
-    /* border: 1px red solid; */
+/* .input-div {
+    border: 1px red solid;
     text-align: center;
     margin: 50px;
-}
+} */
 
 .submit {
     border: 2px solid black;
     border-radius: 15px;
     color: black;
     /* align-self: center; */
-    height: 30px;
-    width: 100px;
+    /* height: 30px; */
+    width: auto;
+    padding: 5px 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -112,32 +162,28 @@ h3 {
     border: 1px white solid;
 }
 
+.errorMessage {
+    font-weight: bold;
+    color: red;
+    margin-bottom: -10px;
+}
+
+.errorMessage2 {
+    /* border: 1px red solid; */
+    font-size: 16px;
+}
+
 .goTo-link {
     /* border: 1px red solid; */
     width: 150px;
-    margin-top: 30px;
+    margin-top: 5px;
     text-align: center;
     /* align-self: flex-end; */
 }
 
-/* -----------------------------/register Page -------------------------------------------*/
+/* -----------------------------/register /login Page -------------------------------------------*/
 
-#register-body {
-    /* border: purple 5px solid; */
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.inside-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* -----------------------------/login Page -------------------------------------------*/
-
-#login-body {
+.register-login-body {
     /* border: purple 5px solid; */
     width: 100%;
     display: grid;
@@ -152,7 +198,7 @@ h3 {
 
 .line-divider {
     border: 1px lightgrey solid;
-    width: 60%;
+    width: 80%;
 }
 
 #sub-title {
@@ -211,16 +257,6 @@ li {
     font-weight: 600;
 }
 
-#errorMessage {
-    font-weight: bold;
-    color: red;
-    margin-bottom: -10px;
-}
-
-#errorMessage2 {
-    font-size: 16px;
-}
-
 /* #petition-form {
     border: 2px black solid;
     border-radius: 10px;
@@ -230,20 +266,6 @@ li {
     flex-direction: column;
     align-items: center;
 } */
-
-input {
-    border: none;
-    border-bottom: 1px black solid;
-    background-color: rgba(245, 245, 245, 0);
-    width: 200px;
-    height: 20px;
-}
-
-input:focus {
-    outline: none;
-    border-bottom: 2px solid black;
-    /* background-color: rgb(247, 247, 247); */
-}
 
 #canvas-div {
     /* border: 1px red solid; */
@@ -263,6 +285,7 @@ canvas {
     cursor: crosshair;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    margin-bottom: 0;
 }
 
 canvas:hover {
@@ -273,8 +296,12 @@ canvas:hover {
 }
 
 #sign-here {
+    /* border: 1px red solid; */
+    padding: 0;
+    margin-top: 0;
     display: block;
-    align-self: flex-start;
+    text-align: center;
+    font-size: 30px;
 }
 
 #redoSig {
@@ -328,7 +355,8 @@ canvas:hover {
 .vid {
     /* border: 1px red solid; */
     width: 560px;
-    margin-top: 80px;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 #scam-vid-title {
     font-size: 20px;

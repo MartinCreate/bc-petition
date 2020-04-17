@@ -63,20 +63,20 @@ module.exports.getProfileEditInfo = (user_id) => {
 };
 
 //-------POST
-module.exports.updateUsers = (user_id, first, last, password) => {
+module.exports.updateUsers = (user_id, first, last, email, password) => {
     if (password) {
         return db.query(
             `
-    UPDATE users SET first = $2, last = $3, password = $4
+    UPDATE users SET first = $2, last = $3, email = $4 password = $5
     WHERE id = $1`,
-            [user_id, first, last, password]
+            [user_id, first, last, email, password]
         );
     } else {
         return db.query(
             `
-    UPDATE users SET first = $2, last = $3
+    UPDATE users SET first = $2, last = $3, email = $4
     WHERE id = $1`,
-            [user_id, first, last]
+            [user_id, first, last, email]
         );
     }
 };

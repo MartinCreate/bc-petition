@@ -1,41 +1,46 @@
 
-<div id="register-body">
+<div class="register-login-body">
     <div class='form registration form-column'>
+
         <form method='POST' id='reg-form' class='inside-form'>
             <p class="form-header">Registration</p>
-            <div class='input-fields'>
-                <div class="input-div">
-                    <label for="firstName">First Name:   </label>
-                    <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
+            
+            
+            
+            <div class='input-fields-div'>
+                <label for="firstName">First Name: {{#if tryAgain}}*{{/if}}   </label>
+                <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">
 
-                <div class="input-div">
-                    <label for="lastName">Last Name:   </label><input id='lastName' name='lastName' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
-                <div class="input-div">
-                    <label for="email">Email:   </label><input id='email' name='email' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
-                <div class="input-div">
-                    <label for="password">Password:   </label><input id='password' name='password' type="text" minlength="2">{{#if tryAgain}}*{{/if}}
-                </div>
+                <label for="lastName">Last Name: {{#if tryAgain}}*{{/if}}  </label>
+                <input id='lastName' name='lastName' type="text" minlength="2">
+        
+                <label for="email">Email: {{#if tryAgain}}*{{/if}}  </label>
+                <input id='email' name='email' type="text" minlength="2">
+
+                <label for="password">Password: {{#if tryAgain}}*{{/if}}  </label>
+                <input id='password' name='password' type="text" minlength="2">
             </div>
 
+
+
+
             {{#if tryAgain}}
-            <p id="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
-            <p>*<span id="errorMessage2">Mandatory fields</span></p>
+            <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+            <p>* <span class="errorMessage2">Mandatory fields</span></p>
             {{/if}}
 
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
             <button class='submit submit-registration'>Register</button>
         </form>
-            <div class='login-div goTo-loginRegister'>Go to <a href="/login" id='login-link'>Login</a></div>
+
+            <div class='goTo-link'>Go to <a href="/login" id='login-link'>Login</a></div>
     </div>
 
     <div class="info-column">
-        <p>Has this ever happened to you?</p>
+        <p>Ever been extorted by a printer?</p>
             <img src="/comic.png" alt="funny-comic" class="intro-comic">
-        <p>This is not a crime, but if you think it should be, sign our petition!</p>
+        <p>Sign our petition to criminalize printer-scams!</p>
     </div>
 
 </div>
