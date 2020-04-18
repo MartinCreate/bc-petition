@@ -153,13 +153,26 @@ app.post("/login", (req, res) => {
 
 //////-----------------------------------/profile Page----------------------------------------------------------------------//
 app.get("/profile", (req, res) => {
-    console.log("Cookis into /profile: ", req.session);
-    res.render("profile");
+    console.log("Cookies into /profile: ", req.session);
+
+    //Check whether user_id row exists (i.e. already clicked continue), if yes, redirect (otherwise they will overwrite what they have by leaving it blank)
+    db.userIdCheck(req.session.userID)
+        .then(({ rows }) => {
+            if (rows[0].exists) {
+                res.redirect("/petition");
+            } else {
+                res.render("profile");
+            }
+        })
+        .catch((err) => {
+            console.log("ERROR in sigIdCheck /profile: ", err);
+        });
 });
 
 app.post("/profile", (req, res) => {
     const bod = req.body;
 
+    console.log("IN POST /portfolio req.session.userID: ", req.session.userID);
     db.submitProfile(req.session.userID, bod.age, bod.city, bod.user_website)
         .then(() => {
             console.log("Profile-Submission Success");
@@ -168,7 +181,9 @@ app.post("/profile", (req, res) => {
         })
         .catch((err) => {
             console.log("ERROR in POST /profile", err);
-            res.redirect("/petition");
+            res.render("profile", {
+                tryAgain: true,
+            });
         });
 });
 
@@ -255,6 +270,7 @@ app.post("/profile/edit", (req, res) => {
             console.log("ERROR in updateUser(s/Profiles) /profile/edit: ", err);
             let edit = req.session.editProfile;
             res.render("profile_edit", {
+                //Retrieve cookies for conditional error message
                 uFirst: edit.first,
                 uLast: edit.last,
                 uEmail: edit.email,
@@ -277,16 +293,10 @@ app.get("/petition", (req, res) => {
     db.sigCheck(req.session.userID)
         .then(({ rows }) => {
             if (rows[0].exists) {
-                db.getSigId(req.session.userID)
-                    .then(({ rows }) => {
-                        // req.session.sigId = rows[0].id;  //potentially useless
-                    })
-                    .then(() => {
-                        console.log("Cookies leaving /petition: ", req.session);
-                        res.redirect("/thanks");
-                    });
+                console.log("Cookies leaving /petition: ", req.session);
+                res.redirect("/thanks");
             } else {
-                console.log("User did not sign. Rendering 'petition'");
+                console.log("User did not sign. Rendering /petition");
                 res.render("petition");
             }
         })
@@ -303,7 +313,6 @@ app.post("/petition", (req, res) => {
             if (req.body.sig.length == 0) {
                 throw Error;
             } else {
-                // req.session.sigUrlID = urlID;    //Unnecessary?
                 console.log("Signature has been submitted.");
                 return;
             }

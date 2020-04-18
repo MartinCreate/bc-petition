@@ -17,9 +17,9 @@ CREATE TABLE user_profiles(
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL UNIQUE,
     age INTEGER NULL,
-    city VARCHAR(100) NULL,
-    url VARCHAR(300) NULL 
- );
+    city VARCHAR(100),
+    url VARCHAR(300)
+    );
 
 -- run this line in terminal to reset the tables
 -- psql -d petition -f tables.sql

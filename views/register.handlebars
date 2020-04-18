@@ -5,8 +5,6 @@
         <form method='POST' id='reg-form' class='inside-form'>
             <p class="form-header">Registration</p>
             
-            
-            
             <div class='input-fields-div'>
                 <label for="firstName">First Name: {{#if tryAgain}}*{{/if}}   </label>
                 <input id='firstName' name='firstName' type="text"  title="must contain characters" minlength="2">
@@ -20,9 +18,6 @@
                 <label for="password">Password: {{#if tryAgain}}*{{/if}}  </label>
                 <input id='password' name='password' type="text" minlength="2">
             </div>
-
-
-
 
             {{#if tryAgain}}
             <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>

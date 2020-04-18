@@ -5,7 +5,7 @@ const db = spicedPg(
 );
 
 ////// --------------------------------/registration & /login page------------------------------------------------
-
+////--POST
 module.exports.submitRegistration = (first, last, email, password) => {
     return db.query(
         `
@@ -16,6 +16,7 @@ module.exports.submitRegistration = (first, last, email, password) => {
     );
 };
 
+////--GET
 module.exports.loginAttempt = (loginEmail) => {
     return db.query(
         `
@@ -25,8 +26,25 @@ module.exports.loginAttempt = (loginEmail) => {
 };
 
 ////// --------------------------------/profile page------------------------------------------------
+////--GET
+module.exports.userIdCheck = (userID) => {
+    return db.query(
+        `
+    SELECT EXISTS(SELECT id FROM user_profiles WHERE user_id = $1)`,
+        [userID]
+    );
+};
 
+////--POST
 module.exports.submitProfile = (user_id, age, city, user_website) => {
+    const checkAge = (age) => {
+        if (age == "") {
+            return null;
+        } else {
+            return age;
+        }
+    };
+
     if (
         user_website.startsWith("http://") ||
         user_website.startsWith("https://")
@@ -35,7 +53,7 @@ module.exports.submitProfile = (user_id, age, city, user_website) => {
             `
     INSERT INTO user_profiles (user_id, age, city, url)
     VALUES ($1, $2, $3, $4)`,
-            [user_id, age, city, user_website]
+            [user_id, checkAge(age), city, user_website]
         );
     } else {
         // throw Error;
@@ -43,13 +61,13 @@ module.exports.submitProfile = (user_id, age, city, user_website) => {
             `
     INSERT INTO user_profiles (user_id, age, city)
     VALUES ($1, $2, $3)`,
-            [user_id, age, city]
+            [user_id, checkAge(age), city]
         );
     }
 };
 
 ////// --------------------------------/profile/edit page------------------------------------------------
-//GET
+////--GET
 module.exports.getProfileEditInfo = (user_id) => {
     return db.query(
         `
@@ -62,7 +80,7 @@ module.exports.getProfileEditInfo = (user_id) => {
     );
 };
 
-//-------POST
+////--POST
 module.exports.updateUsers = (user_id, first, last, email, password) => {
     if (password) {
         return db.query(
@@ -81,7 +99,7 @@ module.exports.updateUsers = (user_id, first, last, email, password) => {
     }
 };
 
-//UPSERT
+////--UPSERT
 module.exports.updateUserProfiles = (user_id, age, city, url) => {
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return db.query(
@@ -103,7 +121,7 @@ module.exports.updateUserProfiles = (user_id, age, city, url) => {
 };
 
 ////// --------------------------------/petition page------------------------------------------------
-//GET
+////--GET
 module.exports.sigCheck = (userID) => {
     return db.query(
         `
@@ -112,15 +130,16 @@ module.exports.sigCheck = (userID) => {
     );
 };
 
-module.exports.getSigId = (userID) => {
-    return db.query(
-        `
-    SELECT id FROM signatures WHERE user_id = $1`,
-        [userID]
-    );
-};
+////-- Not used (was probably used in part 3)
+// module.exports.getSigId = (userID) => {
+//     return db.query(
+//         `
+//     SELECT id FROM signatures WHERE user_id = $1`,
+//         [userID]
+//     );
+// };
 
-//POST
+////--POST
 module.exports.submitSig = (signature, user_id) => {
     return db.query(
         `
@@ -135,18 +154,20 @@ module.exports.getData = (querySQL) => {
 };
 
 ////// --------------------------------/sig-delete ------------------------------------------------
+////--POST
 module.exports.deleteSig = (user_id) => {
     return db.query(`DELETE FROM signatures WHERE user_id = $1`, [user_id]);
 };
 
 ////// --------------------------------/signers page------------------------------------------------
+////--GET
 module.exports.getFullSigners = () => {
     return db.query(`
     SELECT users.id AS user_id, first, last, age, city, url
     FROM signatures
-    FULL OUTER JOIN users
+    JOIN users
     ON signatures.user_id = users.id
-    FULL OUTER JOIN user_profiles
+    LEFT OUTER JOIN user_profiles
     ON users.id = user_profiles.user_id`);
 };
 
@@ -155,9 +176,9 @@ module.exports.getSignerCity = (city) => {
         `
     SELECT users.id AS user_id, first, last, age, city, url
     FROM signatures
-    FULL OUTER JOIN users
+    JOIN users
     ON signatures.user_id = users.id
-    FULL OUTER JOIN user_profiles
+    LEFT OUTER JOIN user_profiles
     ON users.id = user_profiles.user_id
     WHERE LOWER(city)=LOWER($1)`,
         [city]
