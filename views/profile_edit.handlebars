@@ -3,22 +3,23 @@
 <div class='form profile-edit-div form-column'>
     <form method='POST' id='profile-edit-form' class='inside-form'>
         <p class="form-header">Edit Your Profile</p>
+        <p class="sub-title">Leaving 'Password: ' blank does not change your password</p>
 
         <div class='input-fields-div'>
             <label for="firstName">First Name: {{#if tryAgain}}*{{/if}}</label>
-            <input id='firstName' name='firstName' type="text"  value="{{uFirst}}" minlength="2">
+            <input id='firstName' name='firstName' type="text"  value="{{uFirst}}" >
 
             <label for="lastName">Last Name: {{#if tryAgain}}*{{/if}}  </label>
-            <input id='lastName' name='lastName' value="{{uLast}}" type="text" minlength="2">
+            <input id='lastName' name='lastName' value="{{uLast}}" type="text" >
 
-            <label for="email">Email: {{#if tryAgain}}*{{/if}}  </label>
-            <input id='email' name='email' value="{{uEmail}}" type="text" minlength="2">
+            <label for="email" class="edit-email">Email: {{#if tryAgain}}*{{/if}}  </label>
+            <input id='email' class="edit-email" name='email' value="{{uEmail}}" type="text">
 
             <label for="password">Password:   </label>
             <input id='password' name='password' type="text">
 
-            <label for="age">Age:   </label>
-            <input id='age' name='age' value="{{uAge}}" type="text" >
+            <label for="age" class= "edit-age">Age:   </label>
+            <input id='age' class="edit-age" name='age' value="{{uAge}}" type="text" >
 
             <label for="city">City:   </label>
             <input id='city' name='city' value="{{uCity}}" type="text" >
@@ -31,12 +32,16 @@
 
         {{#if justUpdated}}
             <p id="updateMessage">Update Complete!</p>
+            <script type="text/javascript">
+                window.scrollTo(0, 300);
+            </script>
         {{/if}}
+
 
         <button class='submit submit-profile-edit'>Update</button>
     </form>
 
-    <div class='goTo-link'>To <a href='/thanks'>Thank-You Page</a></div>
+    <div class='goTo-link'>Back to <a href='/thanks'>Thank-You Page</a></div>
 
       {{#if tryAgain}}
             <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>

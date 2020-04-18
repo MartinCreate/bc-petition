@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
 app.use(express.static("./public"));
 
-// Redirect to register page if not logged in
+// Redirect to /register if no loggedIn Cookie
 app.use((req, res, next) => {
     if (
         req.url != "/login" &&
@@ -55,10 +55,24 @@ app.use((req, res, next) => {
     }
 });
 
-// Redirect to petition page if logged in
+// Redirect to petition page if loggedIn Cookie
 app.get("/", (req, res) => {
     if (req.session.loggedIn) {
         res.redirect("/petition");
+    }
+});
+
+// Redirect to petition page of no hasSigned Cookie
+app.use((req, res, next) => {
+    if (
+        !req.session.hasSigned &&
+        (req.url == "/thanks" ||
+            req.url.startsWith("/signers") ||
+            req.url == "/profile/edit")
+    ) {
+        res.redirect("/petition");
+    } else {
+        next();
     }
 });
 
@@ -73,7 +87,18 @@ app.post("/register", (req, res) => {
     console.log("req.body into POST /register: ", req.body);
     const bod = req.body;
 
-    hash(bod.password).then((hashedP) => {
+    //if bod.password is undefined, then 'hashedP' should be undefined
+    const hashP = new Promise(function (resolve) {
+        if (bod.password) {
+            hash(bod.password).then((actualHashedP) => {
+                resolve(actualHashedP);
+            });
+        } else {
+            resolve(bod.password);
+        }
+    });
+
+    hashP.then((hashedP) => {
         db.submitRegistration(bod.firstName, bod.lastName, bod.email, hashedP)
             .then(({ rows }) => {
                 console.log("Register Successful");
@@ -102,7 +127,7 @@ app.post("/register", (req, res) => {
 
 app.get("/logout", (req, res) => {
     req.session = null;
-    res.redirect("/login");
+    res.redirect("/register");
 });
 
 //////-----------------------------------/login Page----------------------------------------------------------------------//
@@ -126,9 +151,45 @@ app.post("/login", (req, res) => {
                     if (matchValue) {
                         req.session.userID = rows[0].id;
                         req.session.loggedIn = true;
+                        return;
                     } else {
                         throw Error;
                     }
+                })
+                .then(() => {
+                    //Set Cookies for hasSigned and submittedProfile
+                    const loginPromise1 = db
+                        .sigCheck(req.session.userID)
+                        .then(({ rows }) => {
+                            if (rows[0].exists) {
+                                req.session.hasSigned = true;
+                                return;
+                            } else {
+                                return;
+                            }
+                        })
+                        .catch((err) => {
+                            console.log("ERROR in sigCheck /login: ", err);
+                        });
+
+                    const loginPromise2 = db
+                        .userProfileCheck(req.session.userID)
+                        .then(({ rows }) => {
+                            if (rows[0].exists) {
+                                req.session.submittedProfile = true;
+                                return;
+                            } else {
+                                return;
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "ERROR in userProfileCheck /login: ",
+                                err
+                            );
+                        });
+
+                    return Promise.all([loginPromise1, loginPromise2]);
                 })
                 .then(() => {
                     console.log("Cookies leaving POST /login: ", req.session);
@@ -155,9 +216,13 @@ app.post("/login", (req, res) => {
 app.get("/profile", (req, res) => {
     console.log("Cookies into /profile: ", req.session);
 
-    //Check whether user_id row exists (i.e. already clicked continue), if yes, redirect (otherwise they will overwrite what they have by leaving it blank)
-    db.userIdCheck(req.session.userID)
+    //Redirect to /petition if submitted before
+    db.userProfileCheck(req.session.userID)
         .then(({ rows }) => {
+            console.log(
+                "In /profile userProfileCheck req.session.submittedProfile: ",
+                req.session.submittedProfile
+            );
             if (rows[0].exists) {
                 res.redirect("/petition");
             } else {
@@ -174,6 +239,9 @@ app.post("/profile", (req, res) => {
 
     console.log("IN POST /portfolio req.session.userID: ", req.session.userID);
     db.submitProfile(req.session.userID, bod.age, bod.city, bod.user_website)
+        .then(() => {
+            req.session.submittedProfile = true;
+        })
         .then(() => {
             console.log("Profile-Submission Success");
             console.log("Cookies POST /profile: ", req.session);
@@ -218,8 +286,22 @@ app.get("/profile/edit", (req, res) => {
 app.post("/profile/edit", (req, res) => {
     let bod = req.body;
 
-    hash(bod.password)
+    console.log("bod.password: ", bod.password);
+
+    //if bod.password is undefined, then 'hashedP' should be undefined
+    const hashP = new Promise(function (resolve) {
+        if (bod.password) {
+            hash(bod.password).then((actualHashedP) => {
+                resolve(actualHashedP);
+            });
+        } else {
+            resolve(bod.password);
+        }
+    });
+
+    hashP
         .then((hashedP) => {
+            console.log("hashedP: ", hashedP);
             const promise1 = db.updateUsers(
                 req.session.userID,
                 bod.firstName,
@@ -290,6 +372,13 @@ app.post("/profile/edit", (req, res) => {
 app.get("/petition", (req, res) => {
     console.log("Cookies into /petition: ", req.session);
 
+    //Redirect to /profile if not 'Continue'd
+    if (!req.session.submittedProfile) {
+        res.redirect("/profile");
+        return;
+    }
+
+    //Redirect to /thanks if signed
     db.sigCheck(req.session.userID)
         .then(({ rows }) => {
             if (rows[0].exists) {
@@ -314,6 +403,7 @@ app.post("/petition", (req, res) => {
                 throw Error;
             } else {
                 console.log("Signature has been submitted.");
+                req.session.hasSigned = true;
                 return;
             }
         })
@@ -395,38 +485,6 @@ app.get("/signers/:name", (req, res) => {
             console.log("ERROR in /signers/city: ", err);
         });
 });
-
-// //////-----------------------------------Checking Signatures Table Data (comment this out / delete this before final submission)----------------------------------------------------------------------//
-
-// app.get("/table-data", (req, res) => {
-//     db.tableData()
-//         .then(({ rows }) => {
-//             let idArr = [];
-//             let firstArr = [];
-//             let lastArr = [];
-//             let signatureArr = [];
-//             let timeStampArr = [];
-
-//             for (let i = 0; i < rows.length; i++) {
-//                 idArr.push(rows[i].id);
-//                 firstArr.push(rows[i].first);
-//                 lastArr.push(rows[i].last);
-//                 signatureArr.push(rows[i].signature);
-//                 timeStampArr.push(rows[i].ts);
-//             }
-
-//             res.render("tabledata", {
-//                 id: idArr,
-//                 first: firstArr,
-//                 last: lastArr,
-//                 signature: signatureArr,
-//                 ts: timeStampArr,
-//             });
-//         })
-//         .catch((err) => {
-//             console.log("ERROR in tableNoSig: ", err);
-//         });
-// });
 
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 

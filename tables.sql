@@ -21,5 +21,5 @@ CREATE TABLE user_profiles(
     url VARCHAR(300)
     );
 
--- run this line in terminal to reset the tables
+-- cd into folder containing tables.sql, then run this line in terminal to reset the tables
 -- psql -d petition -f tables.sql

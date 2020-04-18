@@ -4,7 +4,20 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/petition"
 );
 
-////// --------------------------------/registration & /login page------------------------------------------------
+////--GET
+module.exports.sigCheck = (userID) => {
+    return db.query(
+        `
+    SELECT EXISTS(SELECT id FROM signatures WHERE user_id = $1)`,
+        [userID]
+    );
+};
+
+module.exports.getData = (querySQL) => {
+    return db.query(querySQL);
+};
+
+////// --------------------------------/registration & /login page------------------------------------------------//
 ////--POST
 module.exports.submitRegistration = (first, last, email, password) => {
     return db.query(
@@ -25,9 +38,9 @@ module.exports.loginAttempt = (loginEmail) => {
     );
 };
 
-////// --------------------------------/profile page------------------------------------------------
+////// --------------------------------/profile page------------------------------------------------//
 ////--GET
-module.exports.userIdCheck = (userID) => {
+module.exports.userProfileCheck = (userID) => {
     return db.query(
         `
     SELECT EXISTS(SELECT id FROM user_profiles WHERE user_id = $1)`,
@@ -66,7 +79,7 @@ module.exports.submitProfile = (user_id, age, city, user_website) => {
     }
 };
 
-////// --------------------------------/profile/edit page------------------------------------------------
+////// --------------------------------/profile/edit page------------------------------------------------//
 ////--GET
 module.exports.getProfileEditInfo = (user_id) => {
     return db.query(
@@ -101,13 +114,21 @@ module.exports.updateUsers = (user_id, first, last, email, password) => {
 
 ////--UPSERT
 module.exports.updateUserProfiles = (user_id, age, city, url) => {
+    const checkAge = (age) => {
+        if (age == "") {
+            return null;
+        } else {
+            return age;
+        }
+    };
+
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return db.query(
             `
             INSERT INTO user_profiles (user_id, age, city, url)
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3, url = $4`,
-            [user_id, age, city, url]
+            [user_id, checkAge(age), city, url]
         );
     } else {
         // throw Error;
@@ -115,21 +136,12 @@ module.exports.updateUserProfiles = (user_id, age, city, url) => {
             `INSERT INTO user_profiles (user_id, age,city)
             VALUES ($1, $2, $3)
             ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3`,
-            [user_id, age, city]
+            [user_id, checkAge(age), city]
         );
     }
 };
 
-////// --------------------------------/petition page------------------------------------------------
-////--GET
-module.exports.sigCheck = (userID) => {
-    return db.query(
-        `
-    SELECT EXISTS(SELECT id FROM signatures WHERE user_id = $1)`,
-        [userID]
-    );
-};
-
+////// --------------------------------/petition page------------------------------------------------//
 ////-- Not used (was probably used in part 3)
 // module.exports.getSigId = (userID) => {
 //     return db.query(
@@ -149,17 +161,13 @@ module.exports.submitSig = (signature, user_id) => {
     );
 };
 
-module.exports.getData = (querySQL) => {
-    return db.query(querySQL);
-};
-
-////// --------------------------------/sig-delete ------------------------------------------------
+////// --------------------------------/sig-delete ------------------------------------------------//
 ////--POST
 module.exports.deleteSig = (user_id) => {
     return db.query(`DELETE FROM signatures WHERE user_id = $1`, [user_id]);
 };
 
-////// --------------------------------/signers page------------------------------------------------
+////// --------------------------------/signers page------------------------------------------------//
 ////--GET
 module.exports.getFullSigners = () => {
     return db.query(`
@@ -184,8 +192,3 @@ module.exports.getSignerCity = (city) => {
         [city]
     );
 };
-
-//////-----------------------------------Checking Table Data (comment this out before pushing)----------------------------------------------------------------------//
-// module.exports.tableData = () => {
-//     return db.query(`SELECT * FROM signatures`);
-// };

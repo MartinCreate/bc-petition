@@ -28,10 +28,13 @@ body {
     min-width: 560px;
 }
 
-p,
+p {
+    font-size: 20px;
+}
+
 input,
 label {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 p,
@@ -62,8 +65,16 @@ h3 {
     border: 2px black solid;
     border-radius: 10px;
     background-color: rgb(222, 220, 220);
-    padding: 20px 50px;
+    padding: 20px 30px;
     margin: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inside-form {
+    /* border: 1px green solid; */
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,14 +82,8 @@ h3 {
 
 .input-fields-div {
     /* border: 1px red solid; */
-    width: auto;
-    padding-right: 50px;
-}
-
-.inside-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* width: auto; */
+    width: 100%;
 }
 
 .form-header {
@@ -92,7 +97,8 @@ label {
     /* display: inline-block; */
     float: left;
     clear: left;
-    width: 50%;
+    width: 35%;
+    min-width: 113px;
     padding-right: 20px;
     text-align: right;
     margin-top: 20px;
@@ -105,10 +111,10 @@ input {
     border-bottom: 1px black solid;
     background-color: rgba(245, 245, 245, 0);
     box-sizing: border-box;
-    width: 50%;
+    width: 55%;
     margin-top: 20px;
     margin-bottom: 20px;
-    padding-right: 20px;
+    margin-right: 10%;
     /* height: 20px; */
     /* display: inline-block; */
     float: left;
@@ -175,7 +181,7 @@ input:focus {
 
 .goTo-link {
     /* border: 1px red solid; */
-    width: 150px;
+    width: 200px;
     margin-top: 5px;
     text-align: center;
     /* align-self: flex-end; */
@@ -368,6 +374,21 @@ canvas:hover {
 #updateMessage {
     font-weight: bold;
     color: green;
+}
+
+.sub-title {
+    /* border: 1px red solid; */
+    font-size: 14px;
+    font-style: italic;
+    margin-top: -10px;
+}
+
+.edit-email {
+    margin-top: 60px;
+}
+
+.edit-age {
+    margin-top: 60px;
 }
 
 /* -----------------------------/thanks Page -------------------------------------------*/
