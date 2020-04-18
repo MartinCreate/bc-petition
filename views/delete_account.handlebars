@@ -1,0 +1,12 @@
+{{> logout}}
+
+<h1>Are you sure you want to delete your account?</h1>
+
+<a href="/thanks" class='link thx-button'>
+    <p class="thx-link-text">Back to Thanks Page</p>
+</a>
+
+<form method='POST' id='delete-account'>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button id='delete-sig-button' class="link thx-button">Delete Account</button>
+</form>

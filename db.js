@@ -192,3 +192,17 @@ module.exports.getSignerCity = (city) => {
         [city]
     );
 };
+
+////// --------------------------------/delete page------------------------------------------------//
+////--POST
+module.exports.deleteSignaturesRow = (user_id) => {
+    return db.query(`DELETE FROM signatures WHERE user_id = $1`, [user_id]);
+};
+
+module.exports.deleteUserProfilesRow = (user_id) => {
+    return db.query(`DELETE FROM user_profiles WHERE user_id = $1`, [user_id]);
+};
+
+module.exports.deleteUsersRow = (user_id) => {
+    return db.query(`DELETE FROM users WHERE id = $1`, [user_id]);
+};

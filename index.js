@@ -219,18 +219,16 @@ app.get("/profile", (req, res) => {
     //Redirect to /petition if submitted before
     db.userProfileCheck(req.session.userID)
         .then(({ rows }) => {
-            console.log(
-                "In /profile userProfileCheck req.session.submittedProfile: ",
-                req.session.submittedProfile
-            );
             if (rows[0].exists) {
+                req.session.submitProfile = true;
                 res.redirect("/petition");
             } else {
                 res.render("profile");
+                return;
             }
         })
         .catch((err) => {
-            console.log("ERROR in sigIdCheck /profile: ", err);
+            console.log("ERROR in userProfileCheck /profile: ", err);
         });
 });
 
@@ -373,10 +371,22 @@ app.get("/petition", (req, res) => {
     console.log("Cookies into /petition: ", req.session);
 
     //Redirect to /profile if not 'Continue'd
-    if (!req.session.submittedProfile) {
-        res.redirect("/profile");
-        return;
-    }
+    // if (!req.session.submittedProfile) {
+    //     res.redirect("/profile");
+    //     return;
+    // }
+    db.userProfileCheck(req.session.userID)
+        .then(({ rows }) => {
+            if (rows[0].exists) {
+                req.session.submitProfile = true;
+                return;
+            } else {
+                res.redirect("/profile");
+            }
+        })
+        .catch((err) => {
+            console.log("ERROR in userProfileCheck /petition: ", err);
+        });
 
     //Redirect to /thanks if signed
     db.sigCheck(req.session.userID)
@@ -486,20 +496,34 @@ app.get("/signers/:name", (req, res) => {
         });
 });
 
+//////-----------------------------------/delete Page----------------------------------------------------------------------//
+app.get("/delete", (req, res) => {
+    if (!req.session.submitProfile) {
+        res.redirect("/profile");
+        return;
+    }
+
+    res.render("delete_account");
+});
+
+app.post("/delete", (req, res) => {
+    db.deleteSignaturesRow(req.session.userID)
+        .then(() => {
+            return db.deleteUserProfilesRow(req.session.userID);
+        })
+        .then(() => {
+            return db.deleteUsersRow(req.session.userID);
+        })
+        .then(() => {
+            res.redirect("/logout");
+        })
+        .catch((err) => {
+            console.log("ERROR in /delete POST: ", err);
+        });
+});
+
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 
 app.listen(process.env.PORT || 8080, () =>
     console.log("petition server is listening...")
 );
-// app.listen(8080, () => console.log("petition server is listening..."));
-
-//////-----------------------------------FYIs----------------------------------------------------------------------//
-// //this
-// db.getData(`SELECT COUNT (*) FROM signatures`).then((response) => {
-//     numberOfSigners = response.rows[0].count;
-// });
-
-// // is the same as this
-// db.getData(`SELECT COUNT (*) FROM signatures`).then(({ rows }) => {
-//     numberOfSigners = rows[0].count;
-// });

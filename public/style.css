@@ -73,10 +73,28 @@ h3 {
     text-decoration: underline;
 }
 
-.info-column p {
+.info-div {
+    /* border: 1px solid red; */
+}
+
+.info-column p,
+.info-column li {
     font-size: 18px;
     font-family: Century;
-    text-align: justify;
+    text-align: left;
+    max-width: 400px;
+}
+
+.info-column li {
+    padding: 0;
+    margin: 0;
+}
+
+.ul-intro {
+    list-style-type: circle;
+    list-style-position: outside;
+
+    margin: 0;
 }
 
 /* ------------------------------ Forms ----------------------------------------------------*/
@@ -162,10 +180,6 @@ input:focus {
 
 .intro-comic {
     width: 400px;
-}
-
-.info-column p {
-    max-width: 400px;
 }
 
 /* .input-div {
