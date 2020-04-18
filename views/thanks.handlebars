@@ -3,16 +3,16 @@
 <h3 id='thxText'>Thank you for signing our petition to criminalise printer-indurty exploitation!</h3>
 
 <img src='{{sigUrl}}' id='thx-sig'>
-<a href="/signers" id='linkToSigners'>
-    <p id="thxNumbSigners">See all {{numbSigners}} signers</p>
+
+<a href="/signers" class='link thx-top'>
+    <p class="thx-link-text">See all {{numbSigners}} signers</p>
 </a>
 
-
-<a href="/profile/edit" class='link'>
-    <p>Edit your profile</p>
+<a href="/profile/edit" class='link thx-button'>
+    <p class="thx-link-text">Edit your profile</p>
 </a>
 
 <form action="/sig-delete" method='POST' id='delete-sig'>
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button id='delete-sig-button'>Delete Signature</button>
+    <button id='delete-sig-button' class="link thx-button">Delete Signature</button>
 </form>
