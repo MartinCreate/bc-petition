@@ -17,7 +17,7 @@ module.exports.getData = (querySQL) => {
     return db.query(querySQL);
 };
 
-////// --------------------------------/registration & /login page------------------------------------------------//
+////// --------------------------------/register & /login page------------------------------------------------//
 ////--POST
 module.exports.submitRegistration = (first, last, email, password) => {
     return db.query(
@@ -50,33 +50,18 @@ module.exports.userProfileCheck = (userID) => {
 
 ////--POST
 module.exports.submitProfile = (user_id, age, city, user_website) => {
-    const checkAge = (age) => {
-        if (age == "") {
-            return null;
-        } else {
-            return age;
-        }
+    const checkUrl = (url) => {
+        return url.startsWith("http://") || url.startsWith("https://")
+            ? url
+            : null;
     };
 
-    if (
-        user_website.startsWith("http://") ||
-        user_website.startsWith("https://")
-    ) {
-        return db.query(
-            `
+    return db.query(
+        `
     INSERT INTO user_profiles (user_id, age, city, url)
     VALUES ($1, $2, $3, $4)`,
-            [user_id, checkAge(age), city, user_website]
-        );
-    } else {
-        // throw Error;
-        return db.query(
-            `
-    INSERT INTO user_profiles (user_id, age, city)
-    VALUES ($1, $2, $3)`,
-            [user_id, checkAge(age), city]
-        );
-    }
+        [user_id, age || null, city, checkUrl(user_website)]
+    );
 };
 
 ////// --------------------------------/profile/edit page------------------------------------------------//
@@ -98,7 +83,7 @@ module.exports.updateUsers = (user_id, first, last, email, password) => {
     if (password) {
         return db.query(
             `
-    UPDATE users SET first = $2, last = $3, email = $4 password = $5
+    UPDATE users SET first = $2, last = $3, email = $4, password = $5
     WHERE id = $1`,
             [user_id, first, last, email, password]
         );
@@ -114,31 +99,19 @@ module.exports.updateUsers = (user_id, first, last, email, password) => {
 
 ////--UPSERT
 module.exports.updateUserProfiles = (user_id, age, city, url) => {
-    const checkAge = (age) => {
-        if (age == "") {
-            return null;
-        } else {
-            return age;
-        }
+    const checkUrl = (url) => {
+        return url.startsWith("http://") || url.startsWith("https://")
+            ? url
+            : null;
     };
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return db.query(
-            `
+    return db.query(
+        `
             INSERT INTO user_profiles (user_id, age, city, url)
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3, url = $4`,
-            [user_id, checkAge(age), city, url]
-        );
-    } else {
-        // throw Error;
-        return db.query(
-            `INSERT INTO user_profiles (user_id, age,city)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (user_id) DO UPDATE SET age = $2, city = $3`,
-            [user_id, checkAge(age), city]
-        );
-    }
+        [user_id, age || null, city, checkUrl(url)]
+    );
 };
 
 ////// --------------------------------/petition page------------------------------------------------//

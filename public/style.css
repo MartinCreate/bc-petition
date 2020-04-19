@@ -431,6 +431,10 @@ canvas:hover {
     margin-top: 60px;
 }
 
+#back-to-thx-edit {
+    color: rgb(45, 45, 45);
+}
+
 /* -----------------------------/thanks Page -------------------------------------------*/
 
 #thx-sig {
@@ -492,6 +496,10 @@ canvas:hover {
 #pic-signers {
     width: 600px;
     margin: 50px;
+}
+
+#back-to-thx {
+    color: rgb(160, 160, 160);
 }
 
 /* -----------------------------tabledata Page -------------------------------------------*/

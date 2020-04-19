@@ -224,7 +224,6 @@ app.get("/profile", (req, res) => {
                 res.redirect("/petition");
             } else {
                 res.render("profile");
-                return;
             }
         })
         .catch((err) => {
@@ -370,23 +369,20 @@ app.post("/profile/edit", (req, res) => {
 app.get("/petition", (req, res) => {
     console.log("Cookies into /petition: ", req.session);
 
-    //Redirect to /profile if not 'Continue'd
-    // if (!req.session.submittedProfile) {
-    //     res.redirect("/profile");
-    //     return;
-    // }
-    db.userProfileCheck(req.session.userID)
-        .then(({ rows }) => {
-            if (rows[0].exists) {
-                req.session.submitProfile = true;
-                return;
-            } else {
-                res.redirect("/profile");
-            }
-        })
-        .catch((err) => {
-            console.log("ERROR in userProfileCheck /petition: ", err);
-        });
+    // Redirect to /profile if not 'Continue'd
+    if (!req.session.submittedProfile) {
+        res.redirect("/profile");
+        return;
+    }
+
+    // db.userProfileCheck(req.session.userID)
+    //     .then(({ rows }) => {
+    //         if (rows[0].exists) {
+    //             req.session.submitProfile = true;
+    //         } else {
+    //             return res.redirect("/profile");
+    //         }
+    //     })
 
     //Redirect to /thanks if signed
     db.sigCheck(req.session.userID)
@@ -484,6 +480,7 @@ app.get("/signers", (req, res) => {
 });
 
 app.get("/signers/:name", (req, res) => {
+    console.log("req.params: ", req.params);
     db.getSignerCity(req.params.name)
         .then(({ rows }) => {
             res.render("signers", {
@@ -499,8 +496,7 @@ app.get("/signers/:name", (req, res) => {
 //////-----------------------------------/delete Page----------------------------------------------------------------------//
 app.get("/delete", (req, res) => {
     if (!req.session.submitProfile) {
-        res.redirect("/profile");
-        return;
+        return res.redirect("/profile");
     }
 
     res.render("delete_account");

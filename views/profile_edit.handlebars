@@ -16,10 +16,10 @@
             <input id='email' class="edit-email" name='email' value="{{uEmail}}" type="text">
 
             <label for="password">Password:   </label>
-            <input id='password' name='password' type="text">
+            <input id='password' name='password' type="password">
 
             <label for="age" class= "edit-age">Age:   </label>
-            <input id='age' class="edit-age" name='age' value="{{uAge}}" type="text" >
+            <input id='age' class="edit-age" name='age' value="{{uAge}}" type="number" >
 
             <label for="city">City:   </label>
             <input id='city' name='city' value="{{uCity}}" type="text" >
@@ -41,7 +41,7 @@
         <button class='submit submit-profile-edit'>Update</button>
     </form>
 
-    <div class='goTo-link'>Back to <a href='/thanks'>Thank-You Page</a></div>
+    <div class='goTo-link' >Back to <a href='/thanks' id="back-to-thx-edit">Thank-You Page</a></div>
 
       {{#if tryAgain}}
             <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
