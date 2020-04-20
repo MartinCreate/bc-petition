@@ -8,41 +8,41 @@
 <figcaption>Movie: Office Space (1999)</figcaption>
 </figure>
 
-    <p class='petition-text'>Hello. For too long now, printer manufacturers have been maliciously taking advantage of their customers and creating needless waste by designing printers and ink cartridges that:</p>
-    <ul id='list-printer-offenses'>
-        <li>prematurely report low ink</li>
-        <li>have built-in obsolescence</li>
-        <li>use some color-ink in every black/white print job</li>
-        <li>disable all printing, if even <b>ONE</b> ink cartridge (of a color you're <span class="list-word not">NOT </span><span class='list-word even'>EVEN </span><span class='list-word using'>USING</span> no less!) is running low on ink</li>
-    </ul>
+<p class='petition-text'>Hello. For too long now, printer manufacturers have been maliciously taking advantage of their customers and creating needless waste by designing printers and ink cartridges that:</p>
+<ul id='list-printer-offenses'>
+    <li>prematurely report low ink</li>
+    <li>have built-in obsolescence</li>
+    <li>use some color-ink in every black/white print job</li>
+    <li>disable all printing, if even <b>ONE</b> ink cartridge (of a color you're <span class="list-word not">NOT </span><span class='list-word even'>EVEN </span><span class='list-word using'>USING</span> no less!) is running low on ink</li>
+</ul>
 
-    <div class="line-divider"></div>
+<div class="line-divider"></div>
 
-    <p class='petition-text'>Sign below to criminalise this chicanery!</p>
+<p class='petition-text'>Sign below to criminalise this chicanery!</p>
 
-    <form method='POST' class='form petition-form'>
-        <p class="form-header">Petition Signature</p>
+<form method='POST' class='form petition-form'>
+    <p class="form-header">Petition Signature</p>
 
-        {{#if tryAgain}}
-        <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
-        <p>*<span class="errorMessage2">Mandatory fields</span></p>
-        {{/if}}
+    {{#if tryAgain}}
+    <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
+    <p>*<span class="errorMessage2">Mandatory fields</span></p>
+    {{/if}}
 
-        <div id='canvas-div'>
-            <canvas id="canvas" width="400" height="90"></canvas>
-            <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}}</label><input id ='sig' name='sig' type="hidden" value='' >
-            <button id="redoSig" type="button">Reset Signature</button>
-        </div>
-
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-        <button class='submit submit-petition'>Submit</button>
-    </form>
-
-    <div class="vid">
-        <div class="scam-vid">
-        <p id='scam-vid-title'>Former printer-salesman exposes printer industry:</p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-
+    <div id='canvas-div'>
+        <canvas id="canvas" width="400" height="90"></canvas>
+        <label for="canvas" id='sign-here'>{{#if tryAgain}}*{{/if}}</label><input id ='sig' name='sig' type="hidden" value='' >
+        <button id="redoSig" type="button">Reset Signature</button>
     </div>
+
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    <button class='submit submit-petition'>Submit</button>
+</form>
+
+<div class="vid">
+    <div class="scam-vid">
+    <p id='scam-vid-title'>Former printer-salesman exposes printer industry:</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/AHX6tHdQGiQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+</div>

@@ -1,5 +1,5 @@
 {{> logout}}
-{{#if byCity}}<h1>Petition signers from {{byCity}}</h1>{{/if}}
+<p class="form-header">Signees {{#if byCity}}from {{byCity}}{{/if}}</p>
 <h3 class="signersBelow">We, whose names are listed below, have pledged to put an end to the printer-industry racket:</h3>
 
 <div id="signerNamesDiv">
@@ -22,8 +22,14 @@
     {{/if}}
 </div>
 
-<a href="/thanks" class='link thx-button' id="back-to-thx">
+<a href="/thanks" class='link thx-button thx-button-city back-to-thx'>
     <p class="thx-link-text" >Back to Thanks Page</p>
 </a>
+
+{{#if byCity}}
+<a href="/signers" class='link thx-button back-to-thx'>
+    <p class="thx-link-text" >Back to All Signees</p>
+</a>
+{{/if}}
 
 <img src="/picSigners.jpg" id='pic-signers'>
