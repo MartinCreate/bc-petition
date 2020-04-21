@@ -19,19 +19,17 @@ canvas
             context.lineTo(x, y);
             context.stroke();
         }
-    })
-    .on("mouseup", () => {
-        if (mousedown) {
-            exportSigURL = $("#canvas")[0].toDataURL();
-            $("#sig").val(exportSigURL);
-        }
     });
 
 $("body").on("mouseup", () => {
+    if (mousedown) {
+        exportSigURL = $("#canvas")[0].toDataURL();
+        $("#sig").val(exportSigURL);
+    }
     mousedown = null;
 });
 
-$("#redoSig").on("mousedown", () => {
+$("#redoSig").on("click", () => {
     context.clearRect(0, 0, canvas[0].width, canvas[0].height);
     exportSigURL = null;
     $("#sig").val(null);
