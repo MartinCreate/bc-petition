@@ -248,11 +248,6 @@ input:focus {
     width: 80%;
 }
 
-#sub-title {
-    font-size: 20px;
-    font-style: italic;
-}
-
 #office-space {
     margin: 50px;
     margin-bottom: 0;
@@ -423,6 +418,7 @@ canvas:hover {
     font-size: 14px;
     font-style: italic;
     margin-top: -10px;
+    margin-bottom: 40px;
 }
 
 .edit-email {

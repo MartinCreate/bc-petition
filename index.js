@@ -8,7 +8,17 @@ const csurf = require("csurf");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
-//Split console.log with each request
+// //TENTATIVE
+exports.app = app;
+// require("./routes/auth");
+// const profileRouter = require("./routes/profile");
+// const {
+//     mustHaveSigned,
+//     requireNoSignature,
+//     requireLoggedOutUser,
+// } = require("./middleware");
+
+//Split console with each request
 app.use((req, res, next) => {
     console.log(
         "//----------------------------------NEW REQUEST-------------------------------//"
@@ -42,39 +52,43 @@ app.use((req, res, next) => {
 
 app.use(express.static("./public"));
 
+////-------------------- Redirects -----------------------------//
 // Redirect to /register if no loggedIn Cookie
 app.use((req, res, next) => {
-    if (
-        req.url != "/login" &&
-        req.url != "/register" &&
-        !req.session.loggedIn
-    ) {
-        res.redirect("/register");
-    } else {
-        next();
-    }
+    req.url != "/login" && req.url != "/register" && !req.session.loggedIn
+        ? res.redirect("/register")
+        : next();
 });
 
-// Redirect to petition page if loggedIn Cookie
+// Redirect to /petition if loggedIn Cookie
 app.get("/", (req, res) => {
     if (req.session.loggedIn) {
         res.redirect("/petition");
     }
 });
 
-// Redirect to petition page of no hasSigned Cookie
+// Redirect to /petition of no hasSigned Cookie
 app.use((req, res, next) => {
-    if (
-        !req.session.hasSigned &&
-        (req.url == "/thanks" ||
-            req.url.startsWith("/signers") ||
-            req.url == "/profile/edit")
-    ) {
-        res.redirect("/petition");
-    } else {
-        next();
-    }
+    // if (
+    //     !req.session.hasSigned &&
+    //     (req.url == "/thanks" ||
+    //         req.url.startsWith("/signers") ||
+    //         req.url == "/profile/edit")
+    // ) {
+    //     res.redirect("/petition");
+    // } else {
+    //     next();
+    // }
+
+    !req.session.hasSigned &&
+    (req.url == "/thanks" ||
+        req.url.startsWith("/signers") ||
+        req.url == "/profile/edit")
+        ? res.redirect("/petition")
+        : next();
 });
+
+// Redirect to /petition if logged in and trying to access logout
 
 //////-----------------------------------/register Page----------------------------------------------------------------------//
 
@@ -212,7 +226,12 @@ app.post("/login", (req, res) => {
         });
 });
 
+//TENTATIVE - this would replace the profile get and post routes (we'd source from the external file)
+// app.use("/profile", profileRouter);
+
 //////-----------------------------------/profile Page----------------------------------------------------------------------//
+//TENTATIVE - requireNoSignature
+// app.get("/profile", requireNoSignature, (req, res) => {
 app.get("/profile", (req, res) => {
     console.log("Cookies into /profile: ", req.session);
 
@@ -231,6 +250,8 @@ app.get("/profile", (req, res) => {
         });
 });
 
+//// TENTATIVE
+// app.post("/profile", requireNoSignature, (req, res) => {
 app.post("/profile", (req, res) => {
     const bod = req.body;
 
@@ -520,6 +541,8 @@ app.post("/delete", (req, res) => {
 
 //////-----------------------------------Server Channel----------------------------------------------------------------------//
 
-app.listen(process.env.PORT || 8080, () =>
-    console.log("petition server is listening...")
-);
+if (require.main === module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log("petition server is up and running...")
+    );
+}
