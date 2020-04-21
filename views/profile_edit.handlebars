@@ -41,10 +41,14 @@
         <button class='submit submit-profile-edit'>Update</button>
     </form>
 
-    <div class='goTo-link' >Back to <a href='/thanks' id="back-to-thx-edit">Thank-You Page</a></div>
-
-      {{#if tryAgain}}
+          {{#if tryAgain}}
             <p class="errorMessage">Woops! Looks like something went wrong. Please try again.</p>
             <p>*<span class="errorMessage2">Mandatory fields</span></p>
+            <script type="text/javascript">
+                window.scrollTo(0, 300);
+            </script>
         {{/if}}
+
+    <div class='goTo-link' >Back to <a href='/thanks' id="back-to-thx-edit">Thank-You Page</a></div>
+
 </div>

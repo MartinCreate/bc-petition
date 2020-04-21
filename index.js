@@ -69,17 +69,6 @@ app.get("/", (req, res) => {
 
 // Redirect to /petition of no hasSigned Cookie
 app.use((req, res, next) => {
-    // if (
-    //     !req.session.hasSigned &&
-    //     (req.url == "/thanks" ||
-    //         req.url.startsWith("/signers") ||
-    //         req.url == "/profile/edit")
-    // ) {
-    //     res.redirect("/petition");
-    // } else {
-    //     next();
-    // }
-
     !req.session.hasSigned &&
     (req.url == "/thanks" ||
         req.url.startsWith("/signers") ||
