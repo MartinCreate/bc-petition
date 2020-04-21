@@ -8,8 +8,10 @@ const csurf = require("csurf");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
-// //TENTATIVE
+//For testing
 exports.app = app;
+
+// //TENTATIVE -- For export routes
 // require("./routes/auth");
 // const profileRouter = require("./routes/profile");
 // const {
