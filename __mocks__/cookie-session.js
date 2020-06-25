@@ -2,10 +2,9 @@ let tempSession,
     session = {};
 
 module.exports = () => (req, res, next) => {
-    //tempSession is a cookie that is only good for one test
-    //session is a cookie we can reuse across multiple tests
+    //---tempSession is a cookie that is only good for one test
+    //---session is a cookie we can reuse across multiple tests
     req.session = tempSession || session;
-    // req.session = {};
     tempSession = null;
     next();
 };

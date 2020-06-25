@@ -11,15 +11,6 @@ app.set("view engine", "handlebars");
 //For testing
 exports.app = app;
 
-// //TENTATIVE -- For export routes
-// require("./routes/auth");
-// const profileRouter = require("./routes/profile");
-// const {
-//     mustHaveSigned,
-//     requireNoSignature,
-//     requireLoggedOutUser,
-// } = require("./middleware");
-
 //Split console with each request
 app.use((req, res, next) => {
     console.log(
@@ -107,11 +98,6 @@ app.post("/register", (req, res) => {
         db.submitRegistration(bod.firstName, bod.lastName, bod.email, hashedP)
             .then(({ rows }) => {
                 console.log("Register Successful");
-                //resetCookies
-                const { csrfSecret } = req.session;
-                req.session = {};
-                req.session.csrfSecret = csrfSecret;
-                //userId and login Cookie
                 req.session.userID = rows[0].id;
                 req.session.loggedIn = true;
             })
@@ -131,7 +117,7 @@ app.post("/register", (req, res) => {
 //////-----------------------------------/logout----------------------------------------------------------------------//
 
 app.get("/logout", (req, res) => {
-    req.session = null;
+    req.session = {};
     res.redirect("/register");
 });
 
@@ -217,12 +203,7 @@ app.post("/login", (req, res) => {
         });
 });
 
-//TENTATIVE - this would replace the profile get and post routes (we'd source from the external file)
-// app.use("/profile", profileRouter);
-
 //////-----------------------------------/profile Page----------------------------------------------------------------------//
-//TENTATIVE - requireNoSignature
-// app.get("/profile", requireNoSignature, (req, res) => {
 app.get("/profile", (req, res) => {
     console.log("Cookies into /profile: ", req.session);
 
@@ -241,8 +222,6 @@ app.get("/profile", (req, res) => {
         });
 });
 
-//// TENTATIVE
-// app.post("/profile", requireNoSignature, (req, res) => {
 app.post("/profile", (req, res) => {
     const bod = req.body;
 
@@ -386,15 +365,6 @@ app.get("/petition", (req, res) => {
         res.redirect("/profile");
         return;
     }
-
-    // db.userProfileCheck(req.session.userID)
-    //     .then(({ rows }) => {
-    //         if (rows[0].exists) {
-    //             req.session.submitProfile = true;
-    //         } else {
-    //             return res.redirect("/profile");
-    //         }
-    //     })
 
     //Redirect to /thanks if signed
     db.sigCheck(req.session.userID)

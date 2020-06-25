@@ -115,15 +115,6 @@ module.exports.updateUserProfiles = (user_id, age, city, url) => {
 };
 
 ////// --------------------------------/petition page------------------------------------------------//
-////-- Not used (was probably used in part 3)
-// module.exports.getSigId = (userID) => {
-//     return db.query(
-//         `
-//     SELECT id FROM signatures WHERE user_id = $1`,
-//         [userID]
-//     );
-// };
-
 ////--POST
 module.exports.submitSig = (signature, user_id) => {
     return db.query(
